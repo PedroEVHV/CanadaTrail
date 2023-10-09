@@ -1,0 +1,66 @@
+type EventOption {
+    id:ID!
+    text:String
+    effectCode:String
+}
+
+
+type Event {
+    id:ID!
+    eventCode:Int
+    title:String
+    description:String
+    options: [EventOption]
+}
+
+type Trait {
+    id:ID!
+}
+
+type Character {
+    id:ID!
+    name1:String
+    name2:String
+    traits:[Trait]
+    food:Float
+    water:Float
+    health:Float
+}
+
+type Item {
+    id:ID!
+    name:String
+    description:String
+    
+}
+
+type Inventory {
+    id:ID!
+}
+
+type Convoy {
+    id:ID!
+    characters:[Character]
+    inventory:Inventory
+}
+
+type Location {
+    spriteCode:String
+}
+
+type Trail {
+    id:ID!
+    locations: [Location]
+}
+
+type Map {
+    id:ID!
+    trail:[Trail]
+}
+
+type Query {
+    characters : [Character]
+}
+
+
+

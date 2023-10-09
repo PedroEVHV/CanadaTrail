@@ -51,6 +51,10 @@ project(":desktop") {
         api "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-desktop"
         api "com.badlogicgames.gdx-controllers:gdx-controllers-desktop:$gdxControllersVersion"
         api "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
+        implementation("com.graphql-java:graphql-java-tools:5.2.4")
+        implementation 'org.apache.httpcomponents:httpclient:4.5.14'
+        implementation('org.apache.httpcomponents.core5:httpcore5:5.2.3')
+        implementation("org.json:json:20230618")
         
     }
 }
@@ -68,6 +72,10 @@ project(":core") {
         api "com.badlogicgames.gdx:gdx-ai:$aiVersion"
         api "com.badlogicgames.gdx-controllers:gdx-controllers-core:$gdxControllersVersion"
         api "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
+        implementation("com.graphql-java:graphql-java-tools:5.2.4")
+        implementation 'org.apache.httpcomponents:httpclient:4.5.14'
+        implementation('org.apache.httpcomponents.core5:httpcore5:5.2.3')
+        implementation("org.json:json:20230618")
         
     }
 }

@@ -32,6 +32,7 @@ type Item {
     name:String
     description:String
     effectCode:String
+    spriteCode:String
 }
 
 type Inventory {

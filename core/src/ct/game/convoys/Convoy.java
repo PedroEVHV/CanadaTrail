@@ -19,8 +19,6 @@ public class Convoy {
     }
 
     //getters
-
-
     public String getId() {
         return id;
     }
@@ -36,4 +34,13 @@ public class Convoy {
     public Inventory getInventory() {
         return inventory;
     }
+
+
+    //Methods
+
+    public void setStartingInventory() {
+
+    }
+
+
 }

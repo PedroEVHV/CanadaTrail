@@ -97,6 +97,13 @@ export function itemsInit() {
             "description" : "Gear used for fishing, let\'s hope you catch the jackpot.",
             "effectCode" : "",
             "spriteCode" : "fishing-gear-image"
+        },
+        {
+            "id" :"ITEMID_SAV0_item:14",
+            "name" : "Navigation instruments",
+            "description" : "A map and a compass will help you find your way, don't lose the north.",
+            "effectCode" : "",
+            "spriteCode" : "navigation-instruments-image"
         }
     ];
 }

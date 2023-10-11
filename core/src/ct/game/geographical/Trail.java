@@ -22,4 +22,16 @@ public class Trail {
     public ArrayList<Location> getLocations() {
         return locations;
     }
+
+    //setters
+
+
+    public void setLocations(ArrayList<Location> locations) {
+        this.locations = locations;
+    }
+
+    @Override
+    public String toString() {
+        return "Trail : " + this.locations.size() + " locations";
+    }
 }

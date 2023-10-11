@@ -58,6 +58,7 @@ public class Game extends ApplicationAdapter implements GraphQlClientInterface {
 
 	@Override
 	public void render () {
+		super.render();
 
 	}
 	

@@ -2,13 +2,24 @@ import { ApolloServer } from '@apollo/server';
 import { startStandaloneServer } from '@apollo/server/standalone';
 import * as fs from 'node:fs';
 
+
+import {characterInit} from "./data_init/characters.js";
+import {locationsInit} from "./data_init/locations.js";
+import {itemsInit} from "./data_init/items.js"
+
 // A schema is a collection of type definitions (hence "typeDefs")
 // that together define the "shape" of queries that are executed against
 // your data.
+
+const characters = characterInit();
+const items = itemsInit();
+const locations = locationsInit();
 const typeDefs = fs.readFileSync('./types.graphql', { encoding: 'utf8' });
 const resolvers = {
   Query : {
     characters : () => characters,
+    items : () => items,
+    locations : () => locations,
   }
 }
 

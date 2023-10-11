@@ -31,7 +31,7 @@ type Item {
     id:ID!
     name:String
     description:String
-    
+    effectCode:String
 }
 
 type Inventory {
@@ -60,6 +60,8 @@ type Map {
 
 type Query {
     characters : [Character]
+    items : [Item]
+    locations : [Location]
 }
 
 

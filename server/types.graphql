@@ -1,5 +1,5 @@
 type EventOption {
-    id:ID!
+    number:Int
     text:String
     effectCode:String
 }
@@ -7,7 +7,7 @@ type EventOption {
 
 type Event {
     id:ID!
-    eventCode:Int
+    eventCode:String
     title:String
     description:String
     options: [EventOption]

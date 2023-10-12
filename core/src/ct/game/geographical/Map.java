@@ -28,4 +28,10 @@ public class Map {
     public Trail getTrail() {
         return trail;
     }
+
+    //Methods
+
+    public void nextLocation() {
+        this.trailPosition++;
+    }
 }

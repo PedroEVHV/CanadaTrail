@@ -17,4 +17,24 @@ public class Location {
         this.description = description;
         this.spriteCode = spriteCode;
     }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public ArrayList<Integer> getEventCodes() {
+        return eventCodes;
+    }
+
+    public String getSpriteCode() {
+        return spriteCode;
+    }
 }

@@ -10,7 +10,8 @@ public class DesktopLauncher {
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
 		config.setForegroundFPS(60);
 		config.setTitle("CanadaTrail");
-		config.setWindowSizeLimits(1150, 650, 1150, 650);
+		config.setWindowedMode(1150, 650);
+		config.setWindowSizeLimits(1150, 650, 1150, 650); //A NE PAS REMPLACER SET WINDOWS
 		new Lwjgl3Application(new Game(), config);
 	}
 }

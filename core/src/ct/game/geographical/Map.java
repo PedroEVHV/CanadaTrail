@@ -32,6 +32,9 @@ public class Map {
     //Methods
 
     public void nextLocation() {
-        this.trailPosition++;
+        if(this.trailPosition < trail.getLocations().size()-1) {
+            this.trailPosition++;
+        }
+
     }
 }

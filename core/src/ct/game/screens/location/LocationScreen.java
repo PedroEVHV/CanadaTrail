@@ -9,7 +9,9 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import ct.game.Game;
 import ct.game.geographical.Location;
 import ct.game.screens.ScreenConfiguration;
+import ct.game.screens.end.EndScreen;
 import ct.game.screens.game_screen.GameScreen;
+import ct.game.screens.inventory.InventoryScreen;
 import ct.game.screens.transition.TransitionScreen;
 
 public class LocationScreen implements Screen {
@@ -23,13 +25,8 @@ public class LocationScreen implements Screen {
         camera.setToOrtho(config.getyDown(), config.getX(), config.getY());
 
         this.location = game.getMap().getTrail().getLocations().get(trailPosition);
-        this.locationTexture = new Texture(Gdx.files.internal(this.location.getSpriteCode() + ".png"));
+        //this.locationTexture = new Texture(Gdx.files.internal(this.location.getSpriteCode() + ".png"));
 
-
-        if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
-            game.setScreen(new GameScreen(game, game.getScreenConfiguration()));
-            dispose();
-        }
     }
 
     @Override
@@ -48,7 +45,12 @@ public class LocationScreen implements Screen {
         game.getSpriteBatch().end();
 
         if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
-            game.setScreen(new TransitionScreen(game, game.getScreenConfiguration()));
+            if(this.game.getMap().getTrailPosition() >= this.game.getMap().getTrail().getLocations().size()-1) {
+                this.game.setScreen(new EndScreen(this.game, this.game.getScreenConfiguration()));
+            } else {
+                game.setScreen(new InventoryScreen(this.game, this.game.getScreenConfiguration()));
+            }
+
             dispose();
         }
     }

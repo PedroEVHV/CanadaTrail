@@ -56,7 +56,6 @@ public interface GraphQlClientInterface {
             StringBuilder responseString = new StringBuilder();
             while((line = buffer.readLine()) != null) {
                 responseString.append(line);
-                System.out.println(stringBuffer.append("\t" + line));
             }
             String parsedResponse = new String(responseString);
             //System.out.println(" no data !");
@@ -65,7 +64,7 @@ public interface GraphQlClientInterface {
             //System.out.println("array");
             for(int i = 0; i < locationsArray.length(); i++) {
                 JSONObject tempObj = (JSONObject) locationsArray.get(i);
-                //System.out.println(locationsArray.get(i));
+
                 output.add(new Location("SAV0", (String) tempObj.get("name"), (String) tempObj.get("description"), (String) tempObj.get("spriteCode"), new ArrayList<>()));
             }
         } catch (Exception e) {

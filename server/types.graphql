@@ -66,6 +66,7 @@ type Query {
     characters : [Character]
     items : [Item]
     locations : [Location]
+    events : [Event]
 }
 
 

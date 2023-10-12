@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
 import ct.game.convoys.Convoy;
+import ct.game.events.Event;
 import ct.game.geographical.Map;
 import ct.game.geographical.Trail;
 import ct.game.graphql.GraphQlClientInterface;
@@ -13,6 +14,7 @@ import ct.game.inventories.Inventory;
 import ct.game.inventories.items.Item;
 import ct.game.screens.ScreenConfiguration;
 import ct.game.screens.main_menu.MainMenuScreen;
+import org.checkerframework.checker.units.qual.A;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -54,6 +56,7 @@ public class Game extends com.badlogic.gdx.Game implements GraphQlClientInterfac
 	private Convoy convoy;
 	private Map map;
 	private ArrayList<Item> gameItems;
+	private ArrayList<Event> events;
 
 
 
@@ -66,7 +69,7 @@ public class Game extends com.badlogic.gdx.Game implements GraphQlClientInterfac
 		this.spriteBatch = new SpriteBatch();
 		this.font = new BitmapFont();
 		this.gameItems = new ArrayList<>();
-
+		this.events = new ArrayList<>();
 		//GraphQlClientInterface.listLocations(locationsListQuery, url);
 
 

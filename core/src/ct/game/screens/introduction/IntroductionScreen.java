@@ -33,10 +33,10 @@ public class IntroductionScreen implements Screen {
         game.getSpriteBatch().setProjectionMatrix(camera.combined);
 
         game.getSpriteBatch().begin();
-        game.getFont().draw(game.getSpriteBatch(),"Intro text.....................................................", 1000, 150 );
+        game.getFont().draw(game.getSpriteBatch(),"Intro text", 1000, 150 );
         game.getSpriteBatch().end();
 
-        if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+        if (Gdx.input.isTouched() && Gdx.input.getY() > this.game.getScreenConfiguration().getY()/2) {
             game.setScreen(new LocationScreen(game, game.getScreenConfiguration(), 0));
             dispose();
         }

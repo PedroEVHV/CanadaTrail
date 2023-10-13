@@ -31,8 +31,9 @@ public class MainMenuScreen implements Screen {
 
         camera.update();
         game.getSpriteBatch().setProjectionMatrix(camera.combined);
-
         game.getSpriteBatch().begin();
+        this.game.getFont().draw(this.game.getSpriteBatch(), "PLAY", this.game.getScreenConfiguration().getX()/2.f, this.game.getScreenConfiguration().getY()/2.f);
+
         game.getSpriteBatch().end();
 
         if (Gdx.input.isTouched()) {

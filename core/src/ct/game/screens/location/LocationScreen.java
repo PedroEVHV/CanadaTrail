@@ -25,7 +25,7 @@ public class LocationScreen implements Screen {
         this.camera.setToOrtho(config.getyDown(), config.getX(), config.getY());
 
         this.location = game.getMap().getTrail().getLocations().get(trailPosition);
-        this.locationTexture = new Texture(Gdx.files.internal(this.location.getSpriteCode() + ".jpg"));
+        this.locationTexture = new Texture(Gdx.files.internal( "location_textures/" + this.location.getSpriteCode() + ".jpg"));
     }
 
     @Override
@@ -52,6 +52,11 @@ public class LocationScreen implements Screen {
                 this.game.getScreenConfiguration().getY() * 0.9f,
                 this.game.getScreenConfiguration().getX()/2f * 0.7f,
                 1, true
+        );
+        this.game.getFont().draw(
+                this.game.getSpriteBatch(), "Press Space to continue...",
+                this.game.getScreenConfiguration().getX()*0.69f,
+                this.game.getScreenConfiguration().getY()*0.06f
         );
         this.game.getSpriteBatch().draw(locationTexture, imagePosX, imagePosY, imageWidth, imageHeight);
 

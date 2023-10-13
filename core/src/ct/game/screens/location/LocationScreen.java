@@ -5,23 +5,15 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.math.Matrix4;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.ScreenUtils;
-import com.badlogic.gdx.utils.viewport.StretchViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
 import ct.game.Game;
 import ct.game.geographical.Location;
 import ct.game.screens.ScreenConfiguration;
 import ct.game.screens.end.EndScreen;
-import ct.game.screens.game_screen.GameScreen;
 import ct.game.screens.inventory.InventoryScreen;
-import ct.game.screens.transition.TransitionScreen;
 
 public class LocationScreen implements Screen {
     private Game game;
-    private Stage stage;
     private OrthographicCamera camera;
     private Location location;
     private Texture locationTexture;
@@ -33,7 +25,7 @@ public class LocationScreen implements Screen {
         this.camera.setToOrtho(config.getyDown(), config.getX(), config.getY());
 
         this.location = game.getMap().getTrail().getLocations().get(trailPosition);
-        //this.locationTexture = new Texture(Gdx.files.internal(this.location.getSpriteCode() + ".png"));
+        this.locationTexture = new Texture(Gdx.files.internal(this.location.getSpriteCode() + ".jpg"));
     }
 
     @Override
@@ -43,17 +35,26 @@ public class LocationScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        ScreenUtils.clear(0,0.1f,0,1);
+        float imageWidth = 450;
+        float imageHeight = 600;
+
+        float imagePosX = 20f;
+        float imagePosY = 20f;
+
+        ScreenUtils.clear(0,0,0,1);
         camera.update();
         game.getSpriteBatch().setProjectionMatrix(camera.combined);
         game.getSpriteBatch().begin();
-        game.getFont().getData().setScale(3,3);
-        game.getFont().draw(game.getSpriteBatch(),location.getDescription(), 1000, 200);
-        //Label.LabelStyle style = new Label.LabelStyle();
-        //style.font = game.getFont();
-        //Label label = new Label(location.getDescription(), style);
-        //label.setScale(3,1);
-        //label.draw(game.getSpriteBatch(), 1);
+        game.getFont().getData().setScale(2,2);
+        game.getFont().draw( //Draw description text
+                game.getSpriteBatch(),location.getDescription(),
+                this.game.getScreenConfiguration().getX()/2f + 5f,
+                this.game.getScreenConfiguration().getY() * 0.9f,
+                this.game.getScreenConfiguration().getX()/2f * 0.7f,
+                1, true
+        );
+        this.game.getSpriteBatch().draw(locationTexture, imagePosX, imagePosY, imageWidth, imageHeight);
+
         game.getSpriteBatch().end();
 
         if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {

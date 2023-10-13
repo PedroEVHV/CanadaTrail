@@ -1,9 +1,13 @@
 package ct.game.screens.start;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.utils.ScreenUtils;
 import ct.game.Game;
 import ct.game.screens.ScreenConfiguration;
+import ct.game.screens.introduction.IntroductionScreen;
 
 public class StartingScreen implements Screen {
     private final Game game;
@@ -23,7 +27,18 @@ public class StartingScreen implements Screen {
 
     @Override
     public void render(float delta) {
+        ScreenUtils.clear(0, 0, 0, 1);
 
+        camera.update();
+        game.getSpriteBatch().setProjectionMatrix(camera.combined);
+
+        game.getSpriteBatch().begin();
+        game.getSpriteBatch().end();
+
+        if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+            game.setScreen(new IntroductionScreen(game, game.getScreenConfiguration()));
+            dispose();
+        }
     }
 
     @Override

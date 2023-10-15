@@ -42,5 +42,7 @@ public class Convoy {
 
     }
 
-
+    public void setCharacters(ArrayList<Character> characters) {
+        this.characters = characters;
+    }
 }

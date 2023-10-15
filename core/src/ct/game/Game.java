@@ -1,9 +1,12 @@
 package ct.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.utils.ScreenUtils;
 import ct.game.convoys.Convoy;
 import ct.game.events.Event;
@@ -51,6 +54,24 @@ public class Game extends com.badlogic.gdx.Game implements GraphQlClientInterfac
 			"  }\n" +
 			"}";
 
+	private static String characterListQuery =
+			"query ExampleQuery {\n" +
+					"\n" +
+					"characters {\n" +
+					"    id\n" +
+					"    name1\n" +
+					"    name2\n" +
+					"    food\n" +
+					"    health\n" +
+					"    water\n" +
+					"    food\n" +
+					"  }\n" +
+					"}";
+
+	public final static Color waterColor = new Color(102f/255f, 195f/255f, 214f/255f, 1.0f);
+	public final static Color foodColor = new Color(163f/255f, 105f/255f, 63f/255f, 1.0f);
+	public final static Color healthColor = new Color(145f/255f, 22f/255f, 22f/255f, 1.0f);
+
 
 	//Game data
 	private Convoy convoy;
@@ -67,10 +88,14 @@ public class Game extends com.badlogic.gdx.Game implements GraphQlClientInterfac
 
 		System.out.println("creating game components");
 		this.spriteBatch = new SpriteBatch();
-		this.font = new BitmapFont();
+
+		FreeTypeFontGenerator freeTypeFontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/pixelmix.ttf"));
+		FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+		parameter.size = 12;
+		this.font = freeTypeFontGenerator.generateFont(parameter);
+		this.font.getData().setLineHeight(14f);
 		this.gameItems = new ArrayList<>();
 		this.events = new ArrayList<>();
-		//GraphQlClientInterface.listLocations(locationsListQuery, url);
 
 
 		//World Generation
@@ -81,6 +106,7 @@ public class Game extends com.badlogic.gdx.Game implements GraphQlClientInterfac
 		this.map = new Map(saveId, trail);
 
 		this.convoy = new Convoy(saveId, "default");
+		this.convoy.setCharacters(GraphQlClientInterface.listCharacters(characterListQuery, url));
 
 		this.setScreen(new MainMenuScreen(this, this.screenConfiguration));
 

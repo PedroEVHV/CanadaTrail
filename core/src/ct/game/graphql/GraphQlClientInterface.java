@@ -1,5 +1,6 @@
 package ct.game.graphql;
 
+import ct.game.characters.Character;
 import ct.game.geographical.Location;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -44,10 +45,40 @@ public interface GraphQlClientInterface {
         }
     }
 
+    static ArrayList<Character> listCharacters(String query, String url) {
+        ArrayList<Character> output = new ArrayList<>();
+        HttpResponse response;
+        try {
+            response = request(query, url);
+            BufferedReader buffer = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
+            String line ="";
+            StringBuffer stringBuffer = new StringBuffer();
+            StringBuilder responseString = new StringBuilder();
+            while((line = buffer.readLine()) != null) {
+                responseString.append(line);
+            }
+            String parsedResponse = new String(responseString);
+            //System.out.println(" no data !");
+            JSONObject json = (JSONObject) new JSONObject(parsedResponse).get("data");
+            JSONArray charactersArray = (JSONArray) json.get("characters");
+            //System.out.println("array");
+            for(int i = 0; i < charactersArray.length(); i++) {
+                JSONObject tempObj = (JSONObject) charactersArray.get(i);
+
+                output.add(new Character("SAV0", (String) tempObj.get("name1"), (String) tempObj.get("name2"), new ArrayList<>()));
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return output;
+        }
+
+
+        return output;
+    }
+
     static ArrayList<Location> listLocations(String query, String url) {
         ArrayList<Location> output = new ArrayList<>();
         HttpResponse response;
-        InputStream stream;
         try {
             response = request(query, url);
             BufferedReader buffer = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));

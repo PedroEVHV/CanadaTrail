@@ -16,7 +16,7 @@ public class Character {
     private StatusBar healthBar;
     private ArrayList<Trait> traits;
 
-    Character(String saveId, String name1, String name2, ArrayList<Trait> traits) {
+    public Character(String saveId, String name1, String name2, ArrayList<Trait> traits) {
         this.id = "CHARID_" + saveId + "_char:" + idCounter;
         idCounter++;
         this.name1 = name1;
@@ -28,4 +28,27 @@ public class Character {
         this.healthBar = new StatusBar(saveId, 100, "health");
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public String getName1() {
+        return name1;
+    }
+
+    public String getName2() {
+        return name2;
+    }
+
+    public StatusBar getFoodBar() {
+        return foodBar;
+    }
+
+    public StatusBar getHealthBar() {
+        return healthBar;
+    }
+
+    public StatusBar getWaterBar() {
+        return waterBar;
+    }
 }

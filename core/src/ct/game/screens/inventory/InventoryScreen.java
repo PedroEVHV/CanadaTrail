@@ -35,7 +35,7 @@ public class InventoryScreen implements Screen {
 
     private Texture healthTexture;
 
-    private HashMap<ResourceAssigner, Integer> assignButtons;
+    private HashMap<Integer, ResourceAssigner> assignButtons;
 
 
 
@@ -51,6 +51,24 @@ public class InventoryScreen implements Screen {
         this.healthTexture = new Texture(Gdx.files.internal("item_sprites/first-aid-kit-image.png"));
 
         this.assignButtons = new HashMap<>();
+
+        float configX = this.game.getScreenConfiguration().getX();
+        float configY = this.game.getScreenConfiguration().getY();
+
+        for(int i = 0; i < 4; i++) {
+            ResourceAssigner foodAssigner = new ResourceAssigner(this.game, foodTexture, configX*0.65f, configY*0.8f - i*125f);
+            //foodAssigner.draw();
+            this.assignButtons.put( i * 10 + 10, foodAssigner);
+
+            ResourceAssigner waterAssigner = new ResourceAssigner(this.game, waterTexture, configX*0.75f, configY*0.8f - i*125f);
+            //waterAssigner.draw();
+            this.assignButtons.put(i * 10 + 11, waterAssigner);
+
+            ResourceAssigner healthAssigner = new ResourceAssigner(this.game, healthTexture, configX*0.85f, configY*0.8f - i*125f);
+            //healthAssigner.draw();
+            this.assignButtons.put( i * 10 + 12,healthAssigner);
+        }
+
 
 
 
@@ -85,17 +103,21 @@ public class InventoryScreen implements Screen {
         for(Character c : this.game.getConvoy().getCharacters()) {
             this.game.getFont().draw(this.game.getSpriteBatch(), c.getName1() + " " + c.getName2(), configX*0.01f, configY*0.8f - count*125f);
 
-            ResourceAssigner foodAssigner = new ResourceAssigner(this.game, foodTexture, configX*0.65f, configY*0.8f - count*125f);
-            foodAssigner.draw();
-            this.assignButtons.put(foodAssigner, count * 10 + 10);
+//            ResourceAssigner foodAssigner = new ResourceAssigner(this.game, foodTexture, configX*0.65f, configY*0.8f - count*125f);
+//            foodAssigner.draw();
+//            this.assignButtons.put( count * 10 + 10, foodAssigner);
+//
+//            ResourceAssigner waterAssigner = new ResourceAssigner(this.game, waterTexture, configX*0.75f, configY*0.8f - count*125f);
+//            waterAssigner.draw();
+//            this.assignButtons.put(count * 10 + 11, waterAssigner);
+//
+//            ResourceAssigner healthAssigner = new ResourceAssigner(this.game, healthTexture, configX*0.85f, configY*0.8f - count*125f);
+//            healthAssigner.draw();
+//            this.assignButtons.put( count * 10 + 12,healthAssigner);
 
-            ResourceAssigner waterAssigner = new ResourceAssigner(this.game, waterTexture, configX*0.75f, configY*0.8f - count*125f);
-            waterAssigner.draw();
-            this.assignButtons.put(waterAssigner, count * 10 + 11);
-
-            ResourceAssigner healthAssigner = new ResourceAssigner(this.game, healthTexture, configX*0.85f, configY*0.8f - count*125f);
-            healthAssigner.draw();
-            this.assignButtons.put(healthAssigner, count * 10 + 12);
+            this.assignButtons.get(count * 10 + 10).draw();
+            this.assignButtons.get(count * 10 + 11).draw();
+            this.assignButtons.get(count * 10 + 12).draw();
 
             count++;
         }
@@ -116,7 +138,18 @@ public class InventoryScreen implements Screen {
 
 
         if (Gdx.input.isTouched()) {
-            this.game.setScreen(new TransitionScreen(this.game, this.game.getScreenConfiguration(), 0.0f));
+            Rectangle nextButton = new Rectangle(configX*0.8f, configY*0.9f, configX*0.2f, configY*0.1f);
+            if(nextButton.contains(Gdx.input.getX(), Gdx.input.getY())) {
+                this.game.setScreen(new TransitionScreen(this.game, this.game.getScreenConfiguration(), 0.0f));
+            } else {
+                for(int i = 0; i < 4; i++) {
+                    //System.out.println(i);
+                    this.assignButtons.get(i * 10 + 10).isClicked(Gdx.input);
+                    this.assignButtons.get(i * 10 + 11).isClicked(Gdx.input);
+                    this.assignButtons.get(i * 10 + 12).isClicked(Gdx.input);
+                }
+            }
+
 
             dispose();
         }

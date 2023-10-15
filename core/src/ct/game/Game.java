@@ -116,7 +116,6 @@ public class Game extends com.badlogic.gdx.Game implements GraphQlClientInterfac
 	@Override
 	public void render () {
 		super.render();
-
 	}
 	
 	@Override

@@ -1,6 +1,7 @@
 package ct.game.utils.interact;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
 import ct.game.Game;
@@ -23,19 +24,19 @@ public class ResourceAssigner {
         this.posX = posX;
         this.posY = posY;
 
-        this.buttonMinusBox = new Rectangle();
-        this.buttonMinusBox.x = this.posX;
-        this.buttonMinusBox.y = this.posY + 55f;
-        this.buttonMinusBox.width = 25f;
-        this.buttonMinusBox.height = 5f;
+        this.buttonMinusBox = new Rectangle(posX, this.game.getScreenConfiguration().getY() - posY + 10f, 25f, 25f);
+//        this.buttonMinusBox.x = this.posX;
+//        this.buttonMinusBox.y = this.posY + 10f;
+//        this.buttonMinusBox.width = 25f;
+//        this.buttonMinusBox.height = 25f;
 
-        this.buttonPlusBox =  new Rectangle();
-        this.buttonPlusBox.x = this.posX;
-        this.buttonPlusBox.y = this.posY - 5f;
-        this.buttonPlusBox.width = 40f;
-        this.buttonPlusBox.height = 40f;
+        this.buttonPlusBox =  new Rectangle(posX, this.game.getScreenConfiguration().getY() - posY - 40f, 25f, 25f);
+//        this.buttonPlusBox.x = this.posX;
+//        this.buttonPlusBox.y = this.posY - 10f;
+//        this.buttonPlusBox.width = 25f;
+//        this.buttonPlusBox.height = 25f;
 
-        this.value = 0;
+        this.value = 5;
 
     }
 
@@ -73,5 +74,16 @@ public class ResourceAssigner {
         this.game.getSpriteBatch().draw(plusTexture, this.posX, this.posY + 10f, 30f, 30f);
         this.game.getSpriteBatch().draw(minusTexture, this.posX + 5f, this.posY - 40f, 25f, 5f );
         this.game.getFont().draw(this.game.getSpriteBatch(), Integer.toString(value), this.posX + 35f, this.posY);
+    }
+
+    public void isClicked(Input input) {
+        if(this.buttonMinusBox.contains(input.getX(), input.getY()) && value > 0) {
+            System.out.println("minus : " + this.resourceTexture.toString() + " -- " + this.value);
+            this.value--;
+        } else if(this.buttonPlusBox.contains(input.getX(), input.getY()) && value < 10)  {
+            System.out.println("plus : "  + this.resourceTexture.toString() + " -- " + this.value);
+            this.value++;
+        }
+
     }
 }

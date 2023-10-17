@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.utils.ScreenUtils;
 import ct.game.Game;
 import ct.game.screens.ScreenConfiguration;
-import ct.game.screens.game_screen.GameScreen;
+
 import ct.game.screens.location.LocationScreen;
 
 public class IntroductionScreen implements Screen {

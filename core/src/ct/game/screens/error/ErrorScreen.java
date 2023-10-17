@@ -1,16 +1,16 @@
-package ct.game.screens.end;
+package ct.game.screens.error;
 
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.utils.ScreenUtils;
 import ct.game.Game;
 import ct.game.screens.ScreenConfiguration;
 
-public class EndScreen implements Screen {
+class ErrorScreen implements Screen {
+
     private final Game game;
     private OrthographicCamera camera;
 
-    public EndScreen(final Game game, ScreenConfiguration config) {
+    ErrorScreen(final Game game, ScreenConfiguration config) {
         this.game = game;
         this.camera = new OrthographicCamera();
         this.camera.setToOrtho(config.getyDown(), config.getX(), config.getY());
@@ -23,13 +23,6 @@ public class EndScreen implements Screen {
     @Override
     public void render(float delta) {
 
-        ScreenUtils.clear(0,0,0,1);
-        camera.update();
-        game.getSpriteBatch().setProjectionMatrix(camera.combined);
-
-        game.getSpriteBatch().begin();
-
-        game.getSpriteBatch().end();
     }
 
     @Override

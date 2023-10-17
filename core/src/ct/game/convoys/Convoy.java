@@ -12,10 +12,13 @@ public class Convoy {
     private ArrayList<Character> characters;
     private Inventory inventory;
 
+    private int gold;
+
     public Convoy(String saveId, String name) {
         this.id = "CONVOYID_" + saveId + "_convoy";
         this.characters = new ArrayList<>();
         this.inventory = new Inventory();
+        this.gold = 0;
     }
 
     //getters
@@ -39,7 +42,7 @@ public class Convoy {
     //Methods
 
     public void setStartingInventory() {
-
+        this.gold = 100;
     }
 
     public void setCharacters(ArrayList<Character> characters) {

@@ -2,6 +2,7 @@ package ct.game.graphql;
 
 import ct.game.characters.Character;
 import ct.game.geographical.Location;
+import ct.game.inventories.items.Item;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpPost;
@@ -97,6 +98,35 @@ public interface GraphQlClientInterface {
                 JSONObject tempObj = (JSONObject) locationsArray.get(i);
 
                 output.add(new Location("SAV0", (String) tempObj.get("name"), (String) tempObj.get("description"), (String) tempObj.get("spriteCode"), new ArrayList<>()));
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return output;
+        }
+
+
+        return output;
+
+    }
+
+    static ArrayList<Item> listItems(String query, String url) {
+        ArrayList<Item> output = new ArrayList<>();
+        HttpResponse response;
+        try {
+            response = request(query, url);
+            BufferedReader buffer = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
+            String line ="";
+            StringBuilder responseString = new StringBuilder();
+            while((line = buffer.readLine()) != null) {
+                responseString.append(line);
+            }
+            String parsedResponse = new String(responseString);
+            JSONObject json = (JSONObject) new JSONObject(parsedResponse).get("data");
+            JSONArray itemsArray = (JSONArray) json.get("items");
+            for(int i = 0; i < itemsArray.length(); i++) {
+                JSONObject tempObj = (JSONObject) itemsArray.get(i);
+
+                output.add(new Item("SAV0", (String) tempObj.get("name"), (String) tempObj.get("description")));
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());

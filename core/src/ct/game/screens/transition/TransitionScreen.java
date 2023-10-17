@@ -2,6 +2,7 @@ package ct.game.screens.transition;
 
 
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -138,6 +139,7 @@ public class TransitionScreen implements Screen {
     private void drawTransitionBar(float x, float y) {
         ShapeRenderer renderer = new ShapeRenderer();
         renderer.begin(ShapeRenderer.ShapeType.Filled);
+        renderer.setColor(Color.ROYAL);
 
         int blocs = (int) (transitionProgress/0.1f);
         for(int i = 0; i < blocs; i++) {

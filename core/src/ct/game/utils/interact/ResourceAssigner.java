@@ -78,10 +78,10 @@ public class ResourceAssigner {
 
     public void isClicked(Input input) {
         if(this.buttonMinusBox.contains(input.getX(), input.getY()) && value > 0) {
-            System.out.println("minus : " + this.resourceTexture.toString() + " -- " + this.value);
+            //System.out.println("minus : " + this.resourceTexture.toString() + " -- " + this.value);
             this.value--;
         } else if(this.buttonPlusBox.contains(input.getX(), input.getY()) && value < 10)  {
-            System.out.println("plus : "  + this.resourceTexture.toString() + " -- " + this.value);
+            //System.out.println("plus : "  + this.resourceTexture.toString() + " -- " + this.value);
             this.value++;
         }
 

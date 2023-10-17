@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.utils.ScreenUtils;
 import ct.game.convoys.Convoy;
 import ct.game.events.Event;
+import ct.game.exceptions.GraphQLException;
 import ct.game.geographical.Map;
 import ct.game.geographical.Trail;
 import ct.game.graphql.GraphQlClientInterface;
@@ -94,19 +95,44 @@ public class Game extends com.badlogic.gdx.Game implements GraphQlClientInterfac
 		parameter.size = 12;
 		this.font = freeTypeFontGenerator.generateFont(parameter);
 		this.font.getData().setLineHeight(14f);
-		this.gameItems = new ArrayList<>();
+
+		try{
+			this.gameItems = GraphQlClientInterface.listItems(itemsListQuery, url);
+			if(this.gameItems.isEmpty()) {
+				throw new GraphQLException("Item data not loaded !", this);
+			}
+		} catch (GraphQLException exception) {
+			exception.setErrorScreen();
+		}
+
 		this.events = new ArrayList<>();
 
 
 		//World Generation
 		Trail trail = new Trail(saveId);
-		trail.setLocations(GraphQlClientInterface.listLocations(locationsListQuery, url));
+		try {
+			trail.setLocations(GraphQlClientInterface.listLocations(locationsListQuery, url));
+			if(trail.getLocations().isEmpty()) {
+				throw new GraphQLException("Location data not loaded !", this);
+			}
+		} catch (GraphQLException exception) {
+			exception.setErrorScreen();
+		}
+
 
 
 		this.map = new Map(saveId, trail);
 
 		this.convoy = new Convoy(saveId, "default");
-		this.convoy.setCharacters(GraphQlClientInterface.listCharacters(characterListQuery, url));
+		try{
+			this.convoy.setCharacters(GraphQlClientInterface.listCharacters(characterListQuery, url));
+			if(this.convoy.getCharacters().isEmpty()) {
+				throw new GraphQLException("Character data not loaded !", this);
+			}
+		} catch (GraphQLException exception) {
+			exception.setErrorScreen();
+		}
+
 
 		this.setScreen(new MainMenuScreen(this, this.screenConfiguration));
 
@@ -154,4 +180,7 @@ public class Game extends com.badlogic.gdx.Game implements GraphQlClientInterfac
 	public ScreenConfiguration getScreenConfiguration() {
 		return screenConfiguration;
 	}
+
+
+	// Methods
 }

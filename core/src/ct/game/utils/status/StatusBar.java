@@ -36,12 +36,23 @@ public class StatusBar {
         return value;
     }
 
+    public void setValue(int value) {
+        if(this.value - value < 0) {
+            this.value = 0;
+        } else {
+            this.value -= value;
+        }
+
+
+    }
+
     //Methods
-    public void draw(Game game, Color color, float x, float y) {
+    public void draw(Game game, Color color, float x, float y, float width, float height) {
+        System.out.println("value: " + value);
         ShapeRenderer renderer = new ShapeRenderer();
         renderer.setColor(color);
         renderer.begin(ShapeRenderer.ShapeType.Filled);
-        renderer.rect(x, y, value * 1f, 20f);
+        renderer.rect(x, y, value * width, height);
         renderer.end();
         renderer.dispose();
     }

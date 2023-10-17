@@ -51,4 +51,5 @@ public class Character {
     public StatusBar getWaterBar() {
         return waterBar;
     }
+
 }

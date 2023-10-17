@@ -1,23 +1,18 @@
 package ct.game.screens.inventory;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.ScreenUtils;
 import ct.game.Game;
 import ct.game.characters.Character;
 import ct.game.screens.ScreenConfiguration;
-import ct.game.screens.end.EndScreen;
 import ct.game.screens.transition.TransitionScreen;
 import ct.game.utils.interact.ResourceAssigner;
 
 import java.util.HashMap;
-import java.util.Map;
 
 public class InventoryScreen implements Screen {
 
@@ -103,18 +98,6 @@ public class InventoryScreen implements Screen {
         for(Character c : this.game.getConvoy().getCharacters()) {
             this.game.getFont().draw(this.game.getSpriteBatch(), c.getName1() + " " + c.getName2(), configX*0.01f, configY*0.8f - count*125f);
 
-//            ResourceAssigner foodAssigner = new ResourceAssigner(this.game, foodTexture, configX*0.65f, configY*0.8f - count*125f);
-//            foodAssigner.draw();
-//            this.assignButtons.put( count * 10 + 10, foodAssigner);
-//
-//            ResourceAssigner waterAssigner = new ResourceAssigner(this.game, waterTexture, configX*0.75f, configY*0.8f - count*125f);
-//            waterAssigner.draw();
-//            this.assignButtons.put(count * 10 + 11, waterAssigner);
-//
-//            ResourceAssigner healthAssigner = new ResourceAssigner(this.game, healthTexture, configX*0.85f, configY*0.8f - count*125f);
-//            healthAssigner.draw();
-//            this.assignButtons.put( count * 10 + 12,healthAssigner);
-
             this.assignButtons.get(count * 10 + 10).draw();
             this.assignButtons.get(count * 10 + 11).draw();
             this.assignButtons.get(count * 10 + 12).draw();
@@ -126,21 +109,20 @@ public class InventoryScreen implements Screen {
         this.game.getSpriteBatch().end();
         count = 0;
         for(Character c : this.game.getConvoy().getCharacters()) {
-            c.getHealthBar().draw(this.game, Game.healthColor, configX * 0.3f, configY * 0.8f - count * 125f - 25f);
-            c.getFoodBar().draw(this.game, Game.foodColor, configX * 0.4f, configY * 0.8f - count * 125f - 25f);
-            c.getWaterBar().draw(this.game, Game.waterColor, configX * 0.5f, configY * 0.8f - count * 125f - 25f);
+            c.getHealthBar().draw(this.game, Game.healthColor, configX * 0.3f, configY * 0.8f - count * 125f - 25f, 1f, 20f);
+            c.getFoodBar().draw(this.game, Game.foodColor, configX * 0.4f, configY * 0.8f - count * 125f - 25f, 1f, 20f);
+            c.getWaterBar().draw(this.game, Game.waterColor, configX * 0.5f, configY * 0.8f - count * 125f - 25f, 1f, 20f);
             count++;
-
-
-
         }
-        //Draw food and water assigners
+
 
 
         if (Gdx.input.isTouched()) {
             Rectangle nextButton = new Rectangle(configX*0.8f, configY*0.9f, configX*0.2f, configY*0.1f);
             if(nextButton.contains(Gdx.input.getX(), Gdx.input.getY())) {
+
                 this.game.setScreen(new TransitionScreen(this.game, this.game.getScreenConfiguration(), 0.0f));
+                dispose();
             } else {
                 for(int i = 0; i < 4; i++) {
                     //System.out.println(i);
@@ -149,9 +131,6 @@ public class InventoryScreen implements Screen {
                     this.assignButtons.get(i * 10 + 12).isClicked(Gdx.input);
                 }
             }
-
-
-            dispose();
         }
     }
 
@@ -178,6 +157,11 @@ public class InventoryScreen implements Screen {
     @Override
     public void dispose() {
 
+    }
 
+    private void setupVitals() {
+        for(int i = 0; i < 4; i++) {
+
+        }
     }
 }

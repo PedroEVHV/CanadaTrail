@@ -33,7 +33,7 @@ public class TransitionScreen implements Screen {
         this.camera.setToOrtho(config.getyDown(), config.getX(), config.getY());
         this.transitionProgress = transitionProgress;
 
-        System.out.println("transition");
+
 
         this.lastTickTime = TimeUtils.nanoTime();
 
@@ -53,8 +53,6 @@ public class TransitionScreen implements Screen {
         camera.update();
         game.getSpriteBatch().setProjectionMatrix(camera.combined);
 
-        System.out.println("transition : " + transitionProgress);
-
         if(TimeUtils.nanoTime() - this.lastTickTime > 1500000000) {
             if(this.transitionProgress >= 1.0f) {
                 this.game.getMap().nextLocation();
@@ -64,7 +62,7 @@ public class TransitionScreen implements Screen {
                 //randomize event
                 Random random = new Random();
                 float randomFloat = random.nextFloat();
-                System.out.println("random : " + randomFloat);
+
                 if(randomFloat < 0.2) {
                     //event
                 }
@@ -84,16 +82,23 @@ public class TransitionScreen implements Screen {
         //Draw
         drawTransitionBar(configX * 0.1f, configY *0.5f);
 
+
+
         int count = 0;
         for(Character c : this.game.getConvoy().getCharacters()) {
-            c.getHealthBar().draw(this.game, Game.healthColor, configX * 0.3f, configY - count * 30f - 25f, 1f, 20f);
-            c.getFoodBar().draw(this.game, Game.foodColor, configX * 0.4f, configY - count * 30f - 25f, 1f, 20f);
-            c.getWaterBar().draw(this.game, Game.waterColor, configX * 0.5f, configY - count * 30f - 25f, 1f, 20f);
+            c.getHealthBar().draw(this.game, Game.healthColor, configX * 0.2f, configY - count * 30f - 25f, 1f, 15f);
+            c.getFoodBar().draw(this.game, Game.foodColor, configX * 0.3f, configY - count * 30f - 25f, 1f, 15f);
+            c.getWaterBar().draw(this.game, Game.waterColor, configX * 0.4f, configY - count * 30f - 25f, 1f, 15f);
             count++;
-
-
-
         }
+        count = 0;
+        this.game.getSpriteBatch().begin();
+        for(Character c : this.game.getConvoy().getCharacters()) {
+            this.game.getFont().getData().setScale(1f, 1f);
+            this.game.getFont().draw(this.game.getSpriteBatch(), c.getName1() + " " + c.getName2(), configX * 0.05f, configY - count * 30f - 10f);
+            count++;
+        }
+        this.game.getSpriteBatch().end();
 
 
 

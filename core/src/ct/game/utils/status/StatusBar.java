@@ -48,7 +48,6 @@ public class StatusBar {
 
     //Methods
     public void draw(Game game, Color color, float x, float y, float width, float height) {
-        System.out.println("value: " + value);
         ShapeRenderer renderer = new ShapeRenderer();
         renderer.setColor(color);
         renderer.begin(ShapeRenderer.ShapeType.Filled);

@@ -20,7 +20,7 @@ public class GraphQLException extends RuntimeException implements GameExceptionI
 
     @Override
     public void setErrorScreen() {
-        this.game.setScreen(new GraphQLErrorScreen(this.game));
+        this.game.setScreen(new GraphQLErrorScreen(this.game, this.message));
     }
 
 }

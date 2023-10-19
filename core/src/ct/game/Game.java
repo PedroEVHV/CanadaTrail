@@ -99,42 +99,28 @@ public class Game extends com.badlogic.gdx.Game implements GraphQlClientInterfac
 		try{
 			this.gameItems = GraphQlClientInterface.listItems(itemsListQuery, url);
 			if(this.gameItems.isEmpty()) {
+				System.out.println("empty");
 				throw new GraphQLException("Item data not loaded !", this);
 			}
-		} catch (GraphQLException exception) {
-			exception.setErrorScreen();
-		}
-
-		this.events = new ArrayList<>();
-
-
-		//World Generation
-		Trail trail = new Trail(saveId);
-		try {
+			this.events = new ArrayList<>();
+			//World Generation
+			Trail trail = new Trail(saveId);
 			trail.setLocations(GraphQlClientInterface.listLocations(locationsListQuery, url));
 			if(trail.getLocations().isEmpty()) {
 				throw new GraphQLException("Location data not loaded !", this);
 			}
-		} catch (GraphQLException exception) {
-			exception.setErrorScreen();
-		}
-
-
-
-		this.map = new Map(saveId, trail);
-
-		this.convoy = new Convoy(saveId, "default");
-		try{
+			this.map = new Map(saveId, trail);
+			this.convoy = new Convoy(saveId, "default");
 			this.convoy.setCharacters(GraphQlClientInterface.listCharacters(characterListQuery, url));
 			if(this.convoy.getCharacters().isEmpty()) {
 				throw new GraphQLException("Character data not loaded !", this);
 			}
+			this.setScreen(new MainMenuScreen(this, this.screenConfiguration));
 		} catch (GraphQLException exception) {
 			exception.setErrorScreen();
 		}
 
 
-		this.setScreen(new MainMenuScreen(this, this.screenConfiguration));
 
 
 	}

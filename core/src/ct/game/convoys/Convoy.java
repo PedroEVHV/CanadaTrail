@@ -1,9 +1,8 @@
 package ct.game.convoys;
 
+import ct.game.Game;
 import ct.game.characters.Character;
 import ct.game.inventories.Inventory;
-import ct.game.inventories.items.Item;
-import ct.game.inventories.items.types.single_use.FoodItem;
 
 import java.util.ArrayList;
 
@@ -42,10 +41,11 @@ public class Convoy {
 
     //Methods
 
-    public void setStartingInventory(String saveId) {
+    public static void setStartingInventory(Convoy convoy, Game game) {
 
-        this.gold = 100;
-        //this.inventory.put();
+
+        convoy.gold = 100;
+
     }
 
     public void setCharacters(ArrayList<Character> characters) {

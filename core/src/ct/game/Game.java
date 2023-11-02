@@ -1,29 +1,21 @@
 package ct.game;
 
-import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import com.badlogic.gdx.utils.ScreenUtils;
 import ct.game.convoys.Convoy;
 import ct.game.events.Event;
 import ct.game.exceptions.GraphQLException;
 import ct.game.geographical.Map;
 import ct.game.geographical.Trail;
 import ct.game.graphql.GraphQlClientInterface;
-import ct.game.inventories.Inventory;
-import ct.game.inventories.items.Item;
+import ct.game.inventories.Item;
 import ct.game.inventories.items.types.single_use.FoodItem;
 import ct.game.screens.ScreenConfiguration;
 import ct.game.screens.main_menu.MainMenuScreen;
-import org.checkerframework.checker.units.qual.A;
-import org.json.JSONObject;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 
 public class Game extends com.badlogic.gdx.Game implements GraphQlClientInterface {
@@ -82,11 +74,6 @@ public class Game extends com.badlogic.gdx.Game implements GraphQlClientInterfac
 	private ArrayList<Event> events;
 
 
-	// Stat items
-
-	private FoodItem food;
-
-
 
 
 	@Override
@@ -112,8 +99,6 @@ public class Game extends com.badlogic.gdx.Game implements GraphQlClientInterfac
 
 
 
-
-
 			this.events = new ArrayList<>();
 
 
@@ -127,6 +112,7 @@ public class Game extends com.badlogic.gdx.Game implements GraphQlClientInterfac
 			this.map = new Map(saveId, trail);
 			this.convoy = new Convoy(saveId, "default");
 			this.convoy.setCharacters(GraphQlClientInterface.listCharacters(characterListQuery, url));
+			Convoy.setStartingInventory(convoy, this);
 			if(this.convoy.getCharacters().isEmpty()) {
 				throw new GraphQLException("Character data not loaded !", this);
 			}

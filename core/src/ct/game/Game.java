@@ -16,6 +16,7 @@ import ct.game.geographical.Trail;
 import ct.game.graphql.GraphQlClientInterface;
 import ct.game.inventories.Inventory;
 import ct.game.inventories.items.Item;
+import ct.game.inventories.items.types.single_use.FoodItem;
 import ct.game.screens.ScreenConfiguration;
 import ct.game.screens.main_menu.MainMenuScreen;
 import org.checkerframework.checker.units.qual.A;
@@ -81,6 +82,12 @@ public class Game extends com.badlogic.gdx.Game implements GraphQlClientInterfac
 	private ArrayList<Event> events;
 
 
+	// Stat items
+
+	private FoodItem food;
+
+
+
 
 	@Override
 	public void create () {
@@ -102,7 +109,15 @@ public class Game extends com.badlogic.gdx.Game implements GraphQlClientInterfac
 				System.out.println("empty");
 				throw new GraphQLException("Item data not loaded !", this);
 			}
+
+
+
+
+
 			this.events = new ArrayList<>();
+
+
+
 			//World Generation
 			Trail trail = new Trail(saveId);
 			trail.setLocations(GraphQlClientInterface.listLocations(locationsListQuery, url));

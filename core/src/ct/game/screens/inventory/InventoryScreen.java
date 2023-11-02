@@ -160,7 +160,8 @@ public class InventoryScreen implements Screen {
     }
 
     private void setupVitals() {
-        for(int i = 0; i < 4; i++) {
+        for(int i = 0; i < this.game.getConvoy().getCharacters().size(); i++) {
+
 
         }
     }

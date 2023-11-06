@@ -10,6 +10,7 @@ import ct.game.Game;
 import ct.game.characters.Character;
 import ct.game.screens.ScreenConfiguration;
 import ct.game.screens.transition.TransitionScreen;
+import ct.game.utils.FoodResource;
 import ct.game.utils.interact.ResourceAssigner;
 
 import java.util.HashMap;
@@ -32,6 +33,8 @@ public class InventoryScreen implements Screen {
 
     private HashMap<Integer, ResourceAssigner> assignButtons;
 
+    private boolean assignmentValidity;
+
 
 
 
@@ -40,27 +43,29 @@ public class InventoryScreen implements Screen {
         this.camera = new OrthographicCamera();
         this.camera.setToOrtho(config.getyDown(), config.getX(), config.getY());
 
+
+
         //Load textures
         this.foodTexture = new Texture(Gdx.files.internal("item_sprites/food-image.png"));
         this.waterTexture = new Texture(Gdx.files.internal("item_sprites/water-image.png"));
         this.healthTexture = new Texture(Gdx.files.internal("item_sprites/first-aid-kit-image.png"));
 
         this.assignButtons = new HashMap<>();
-
+        this.assignmentValidity = true;
         float configX = this.game.getScreenConfiguration().getX();
         float configY = this.game.getScreenConfiguration().getY();
 
         for(int i = 0; i < 4; i++) {
             ResourceAssigner foodAssigner = new ResourceAssigner(this.game, foodTexture, configX*0.65f, configY*0.8f - i*125f);
-            //foodAssigner.draw();
+
             this.assignButtons.put( i * 10 + 10, foodAssigner);
 
             ResourceAssigner waterAssigner = new ResourceAssigner(this.game, waterTexture, configX*0.75f, configY*0.8f - i*125f);
-            //waterAssigner.draw();
+
             this.assignButtons.put(i * 10 + 11, waterAssigner);
 
             ResourceAssigner healthAssigner = new ResourceAssigner(this.game, healthTexture, configX*0.85f, configY*0.8f - i*125f);
-            //healthAssigner.draw();
+
             this.assignButtons.put( i * 10 + 12,healthAssigner);
         }
 
@@ -119,16 +124,25 @@ public class InventoryScreen implements Screen {
 
         if (Gdx.input.isTouched()) {
             Rectangle nextButton = new Rectangle(configX*0.8f, configY*0.9f, configX*0.2f, configY*0.1f);
-            if(nextButton.contains(Gdx.input.getX(), Gdx.input.getY())) {
+            if(nextButton.contains(Gdx.input.getX(), Gdx.input.getY()) && assignmentValidity) {
 
                 this.game.setScreen(new TransitionScreen(this.game, this.game.getScreenConfiguration(), 0.0f));
                 dispose();
             } else {
+                int total = 0;
                 for(int i = 0; i < 4; i++) {
                     //System.out.println(i);
                     this.assignButtons.get(i * 10 + 10).isClicked(Gdx.input);
+                    total += this.assignButtons.get(i * 10 + 10).getValue();
                     this.assignButtons.get(i * 10 + 11).isClicked(Gdx.input);
+                    total += this.assignButtons.get(i * 10 + 11).getValue();
                     this.assignButtons.get(i * 10 + 12).isClicked(Gdx.input);
+                    total += this.assignButtons.get(i * 10 + 12).getValue();
+                }
+                if(total > this.game.getConvoy().getInventory().get(FoodResource.generateFoodITem(this.game))) {
+                    assignmentValidity = false;
+                } else {
+                    assignmentValidity = true;
                 }
             }
         }
@@ -161,7 +175,7 @@ public class InventoryScreen implements Screen {
 
     private void setupVitals() {
         for(int i = 0; i < this.game.getConvoy().getCharacters().size(); i++) {
-
+            this.game.getConvoy().getCharacters().get(i).getHealthBar().setValue(this.game.getConvoy().getCharacters().get(i).getHealthBar().getValue() + this.assignButtons.get(i * 10 + 10).getValue());
 
         }
     }

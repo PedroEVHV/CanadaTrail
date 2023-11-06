@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public interface GraphQlClientInterface {
     static HttpResponse request(String query, String url) throws RuntimeException, IOException, URISyntaxException {
@@ -134,5 +135,36 @@ public interface GraphQlClientInterface {
 
         return output;
 
+    }
+
+
+    static HashMap<String, Integer> loadInventorySetup(String query, String url){
+        HashMap<String, Integer> output = new HashMap<String, Integer>();
+        HttpResponse response;
+        try {
+            response = request(query, url);
+            BufferedReader buffer = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
+            String line ="";
+            StringBuilder responseString = new StringBuilder();
+            while((line = buffer.readLine()) != null) {
+                responseString.append(line);
+            }
+            String parsedResponse = new String(responseString);
+            JSONObject json = (JSONObject) new JSONObject(parsedResponse).get("data");
+            JSONObject setupJson = json.getJSONObject("setup");
+            JSONObject tempObj = setupJson.getJSONObject("food");
+
+            output.put((String) tempObj.get("item"), (Integer) tempObj.get("amount"));
+            tempObj = setupJson.getJSONObject("water");
+            output.put((String) tempObj.get("item"), (Integer) tempObj.get("amount"));
+            tempObj = setupJson.getJSONObject("medical");
+            output.put((String) tempObj.get("item"), (Integer) tempObj.get("amount"));
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return output;
+        }
+
+
+        return output;
     }
 }

@@ -1,3 +1,5 @@
+scalar JSON
+
 type EventOption {
     number:Int
     text:String
@@ -62,11 +64,22 @@ type Map {
     trail:[Trail]
 }
 
+type Setup {
+    id:ID!
+    name: String
+    travelers: Int
+    food: JSON
+    water: JSON
+    medical: JSON
+
+}
+
 type Query {
     characters : [Character]
     items : [Item]
     locations : [Location]
     events : [Event]
+    setup : Setup
 }
 
 

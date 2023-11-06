@@ -12,9 +12,9 @@ import ct.game.geographical.Map;
 import ct.game.geographical.Trail;
 import ct.game.graphql.GraphQlClientInterface;
 import ct.game.inventories.Item;
-import ct.game.inventories.items.types.single_use.FoodItem;
 import ct.game.screens.ScreenConfiguration;
 import ct.game.screens.main_menu.MainMenuScreen;
+import ct.game.utils.Setup;
 
 import java.util.ArrayList;
 
@@ -62,6 +62,18 @@ public class Game extends com.badlogic.gdx.Game implements GraphQlClientInterfac
 					"  }\n" +
 					"}";
 
+	private static String inventorySetupQuery =
+			"query ExampleQuery {\n" +
+					"\n" +
+					"  setup {\n" +
+					"    id\n" +
+					"    food\n" +
+					"    water\n" +
+					"    medical\n" +
+					"    travelers\n" +
+					"  }\n" +
+					"}";
+
 	public final static Color waterColor = new Color(102f/255f, 195f/255f, 214f/255f, 1.0f);
 	public final static Color foodColor = new Color(163f/255f, 105f/255f, 63f/255f, 1.0f);
 	public final static Color healthColor = new Color(145f/255f, 22f/255f, 22f/255f, 1.0f);
@@ -73,6 +85,8 @@ public class Game extends com.badlogic.gdx.Game implements GraphQlClientInterfac
 	private ArrayList<Item> gameItems;
 	private ArrayList<Event> events;
 
+	private Setup setup;
+
 
 
 
@@ -80,6 +94,7 @@ public class Game extends com.badlogic.gdx.Game implements GraphQlClientInterfac
 	public void create () {
 		//Default screen settings
 		this.screenConfiguration = new ScreenConfiguration(1150,650, false);
+		this.setup = new Setup(inventorySetupQuery, url, this);
 
 		System.out.println("creating game components");
 		this.spriteBatch = new SpriteBatch();
@@ -110,11 +125,16 @@ public class Game extends com.badlogic.gdx.Game implements GraphQlClientInterfac
 				throw new GraphQLException("Location data not loaded !", this);
 			}
 			this.map = new Map(saveId, trail);
+
+			//Convoy generation
 			this.convoy = new Convoy(saveId, "default");
 			this.convoy.setCharacters(GraphQlClientInterface.listCharacters(characterListQuery, url));
-			Convoy.setStartingInventory(convoy, this);
+			Convoy.setStartingInventory(this.convoy, this);
 			if(this.convoy.getCharacters().isEmpty()) {
 				throw new GraphQLException("Character data not loaded !", this);
+			}
+			if(this.convoy.getInventory().isEmpty()) {
+				throw new GraphQLException("Inventory setup not loaded !", this);
 			}
 			this.setScreen(new MainMenuScreen(this, this.screenConfiguration));
 		} catch (GraphQLException exception) {
@@ -154,6 +174,10 @@ public class Game extends com.badlogic.gdx.Game implements GraphQlClientInterfac
 
 	public ArrayList<Item> getGameItems() {
 		return gameItems;
+	}
+
+	public Setup getSetup() {
+		return setup;
 	}
 
 	public static String getItemsListQuery() {

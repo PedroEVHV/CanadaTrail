@@ -36,14 +36,12 @@ public class StatusBar {
         return value;
     }
 
-    public void setValue(int value) {
-        if(this.value - value < 0) {
+    public void deltaUpdate(float delta) {
+        if(this.value + delta < 0) {
             this.value = 0;
         } else {
-            this.value -= value;
+            this.value += (int) delta;
         }
-
-
     }
 
     //Methods

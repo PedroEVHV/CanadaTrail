@@ -19,6 +19,7 @@ public class ResourceAssigner {
     private float posY;
 
     private long timer;
+    private boolean lock;
 
 
     public ResourceAssigner(final Game game, Texture texture, float posX, float posY) {
@@ -26,7 +27,7 @@ public class ResourceAssigner {
         this.resourceTexture = texture;
         this.posX = posX;
         this.posY = posY;
-
+        this.lock = false;
         this.buttonMinusBox = new Rectangle(posX, this.game.getScreenConfiguration().getY() - posY + 20f, 25f, 25f);
 
 
@@ -66,6 +67,10 @@ public class ResourceAssigner {
         return resourceTexture;
     }
 
+    public void setLock(boolean b) {
+        this.lock = b;
+    }
+
 
     public void draw() {
         this.game.getSpriteBatch().draw(this.resourceTexture, this.posX, this.posY - 25f, 35f, 35f);
@@ -80,7 +85,7 @@ public class ResourceAssigner {
             if(this.buttonMinusBox.contains(input.getX(), input.getY()) && value > 0) {
                 //System.out.println("minus : " + this.resourceTexture.toString() + " -- " + this.value);
                 this.value--;
-            } else if(this.buttonPlusBox.contains(input.getX(), input.getY()) && value < 10)  {
+            } else if(this.buttonPlusBox.contains(input.getX(), input.getY()) && value < 10 && !lock)  {
                 //System.out.println("plus : "  + this.resourceTexture.toString() + " -- " + this.value);
                 this.value++;
             }

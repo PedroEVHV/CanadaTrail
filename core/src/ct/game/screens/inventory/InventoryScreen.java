@@ -8,9 +8,10 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.ScreenUtils;
 import ct.game.Game;
 import ct.game.characters.Character;
+import ct.game.inventories.Item;
 import ct.game.screens.ScreenConfiguration;
 import ct.game.screens.transition.TransitionScreen;
-import ct.game.utils.FoodResource;
+import ct.game.utils.Resource;
 import ct.game.utils.interact.ResourceAssigner;
 
 import java.util.HashMap;
@@ -58,15 +59,15 @@ public class InventoryScreen implements Screen {
         for(int i = 0; i < 4; i++) {
             ResourceAssigner foodAssigner = new ResourceAssigner(this.game, foodTexture, configX*0.65f, configY*0.8f - i*125f);
 
-            this.assignButtons.put( i * 10 + 10, foodAssigner);
+            this.assignButtons.put( i * 10 + 0, foodAssigner);
 
             ResourceAssigner waterAssigner = new ResourceAssigner(this.game, waterTexture, configX*0.75f, configY*0.8f - i*125f);
 
-            this.assignButtons.put(i * 10 + 11, waterAssigner);
+            this.assignButtons.put(i * 10 + 1, waterAssigner);
 
             ResourceAssigner healthAssigner = new ResourceAssigner(this.game, healthTexture, configX*0.85f, configY*0.8f - i*125f);
 
-            this.assignButtons.put( i * 10 + 12,healthAssigner);
+            this.assignButtons.put( i * 10 + 2,healthAssigner);
         }
 
 
@@ -103,9 +104,9 @@ public class InventoryScreen implements Screen {
         for(Character c : this.game.getConvoy().getCharacters()) {
             this.game.getFont().draw(this.game.getSpriteBatch(), c.getName1() + " " + c.getName2(), configX*0.01f, configY*0.8f - count*125f);
 
-            this.assignButtons.get(count * 10 + 10).draw();
-            this.assignButtons.get(count * 10 + 11).draw();
-            this.assignButtons.get(count * 10 + 12).draw();
+            this.assignButtons.get(count * 10 + 0).draw();
+            this.assignButtons.get(count * 10 + 1).draw();
+            this.assignButtons.get(count * 10 + 2).draw();
 
             count++;
         }
@@ -125,25 +126,14 @@ public class InventoryScreen implements Screen {
         if (Gdx.input.isTouched()) {
             Rectangle nextButton = new Rectangle(configX*0.8f, configY*0.9f, configX*0.2f, configY*0.1f);
             if(nextButton.contains(Gdx.input.getX(), Gdx.input.getY()) && assignmentValidity) {
-
+                setupVitals();
                 this.game.setScreen(new TransitionScreen(this.game, this.game.getScreenConfiguration(), 0.0f));
                 dispose();
             } else {
-                int total = 0;
-                for(int i = 0; i < 4; i++) {
-                    //System.out.println(i);
-                    this.assignButtons.get(i * 10 + 10).isClicked(Gdx.input);
-                    total += this.assignButtons.get(i * 10 + 10).getValue();
-                    this.assignButtons.get(i * 10 + 11).isClicked(Gdx.input);
-                    total += this.assignButtons.get(i * 10 + 11).getValue();
-                    this.assignButtons.get(i * 10 + 12).isClicked(Gdx.input);
-                    total += this.assignButtons.get(i * 10 + 12).getValue();
-                }
-                if(total > this.game.getConvoy().getInventory().get(FoodResource.generateFoodITem(this.game))) {
-                    assignmentValidity = false;
-                } else {
-                    assignmentValidity = true;
-                }
+                checkCorrectAssignment(Resource.generateFoodItem(this.game), 0);
+                checkCorrectAssignment(Resource.generateDrinkItem(this.game), 1);
+                checkCorrectAssignment(Resource.generateMedicalItem(this.game), 2);
+
             }
         }
     }
@@ -175,8 +165,40 @@ public class InventoryScreen implements Screen {
 
     private void setupVitals() {
         for(int i = 0; i < this.game.getConvoy().getCharacters().size(); i++) {
-            this.game.getConvoy().getCharacters().get(i).getHealthBar().setValue(this.game.getConvoy().getCharacters().get(i).getHealthBar().getValue() + this.assignButtons.get(i * 10 + 10).getValue());
+            int deltaF = this.assignButtons.get(i * 10 + 0).getValue() * Game.baseMultiplier;
+            int deltaW = this.assignButtons.get(i * 10 + 1).getValue() * Game.baseMultiplier;
+            int deltaH = this.assignButtons.get(i * 10 + 2).getValue() * Game.baseMultiplier;
 
+            this.game.getConvoy().getCharacters().get(i).getFoodBar().deltaUpdate(deltaF);
+            this.game.getConvoy().getCharacters().get(i).getWaterBar().deltaUpdate(deltaW);
+            this.game.getConvoy().getCharacters().get(i).getHealthBar().deltaUpdate(deltaH);
+
+
+        }
+    }
+
+    private void checkCorrectAssignment(Item resourceType, int column) {
+        int total = 0;
+        for(int i = 0; i < 4; i++) {
+            //System.out.println(i);
+            this.assignButtons.get(i * 10 + column).isClicked(Gdx.input);
+            total += this.assignButtons.get(i * 10 + column).getValue();
+        }
+        if(total >= this.game.getConvoy().getInventory().get(resourceType)) {
+            this.assignButtons.get(0 + column).setLock(true);
+            this.assignButtons.get(10 + column).setLock(true);
+            this.assignButtons.get(20 + column).setLock(true);
+            this.assignButtons.get(30 + column).setLock(true);
+        } else {
+            this.assignButtons.get(0 + column).setLock(false);
+            this.assignButtons.get(10 + column).setLock(false);
+            this.assignButtons.get(20 + column).setLock(false);
+            this.assignButtons.get(30 + column).setLock(false);
+        }
+        if(total > this.game.getConvoy().getInventory().get(resourceType)) {
+            this.assignmentValidity = false;
+        } else {
+            this.assignmentValidity = true;
         }
     }
 }

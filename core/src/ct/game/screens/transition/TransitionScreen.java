@@ -71,7 +71,7 @@ public class TransitionScreen implements Screen {
 
                 //Update vitals
                 for(Character c : this.game.getConvoy().getCharacters()) {
-                    this.updateVitals(c, 5 );
+                    this.updateVitals(c, Game.baseMultiplier );
                 }
 
             }
@@ -132,8 +132,8 @@ public class TransitionScreen implements Screen {
 
     private void updateVitals(Character c, int value) {
 
-        c.getFoodBar().setValue(value/2);
-        c.getWaterBar().setValue(value);
+        c.getFoodBar().deltaUpdate((float) -value /5);
+        c.getWaterBar().deltaUpdate(-1f * value/3);
     }
 
     private void drawTransitionBar(float x, float y) {

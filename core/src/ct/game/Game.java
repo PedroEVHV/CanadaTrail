@@ -25,6 +25,8 @@ public class Game extends com.badlogic.gdx.Game implements GraphQlClientInterfac
 
 	private ScreenConfiguration screenConfiguration;
 	private static String saveId = "SAV0";
+
+	public static int baseMultiplier = 10;
 	private static String url = "http://localhost:4000";
 
 	private static String itemsListQuery =
@@ -178,10 +180,6 @@ public class Game extends com.badlogic.gdx.Game implements GraphQlClientInterfac
 
 	public Setup getSetup() {
 		return setup;
-	}
-
-	public static String getItemsListQuery() {
-		return itemsListQuery;
 	}
 
 	public BitmapFont getFont() {

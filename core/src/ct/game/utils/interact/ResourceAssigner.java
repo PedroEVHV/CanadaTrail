@@ -2,6 +2,7 @@ package ct.game.utils.interact;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.TimeUtils;
@@ -73,10 +74,17 @@ public class ResourceAssigner {
 
 
     public void draw() {
+
         this.game.getSpriteBatch().draw(this.resourceTexture, this.posX, this.posY - 25f, 35f, 35f);
         this.game.getSpriteBatch().draw(plusTexture, this.posX, this.posY + 10f, 30f, 30f);
         this.game.getSpriteBatch().draw(minusTexture, this.posX + 5f, this.posY - 40f, 25f, 5f );
+        if(lock) {
+            this.game.getFont().setColor(Color.RED);
+        } else {
+            this.game.getFont().setColor(Color.WHITE);
+        }
         this.game.getFont().draw(this.game.getSpriteBatch(), Integer.toString(value), this.posX + 35f, this.posY);
+        this.game.getFont().setColor(Color.WHITE);
     }
 
     public void isClicked(Input input) {

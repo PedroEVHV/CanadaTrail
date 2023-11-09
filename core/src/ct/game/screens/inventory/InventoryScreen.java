@@ -127,6 +127,7 @@ public class InventoryScreen implements Screen {
             Rectangle nextButton = new Rectangle(configX*0.8f, configY*0.9f, configX*0.2f, configY*0.1f);
             if(nextButton.contains(Gdx.input.getX(), Gdx.input.getY()) && assignmentValidity) {
                 setupVitals();
+
                 this.game.setScreen(new TransitionScreen(this.game, this.game.getScreenConfiguration(), 0.0f));
                 dispose();
             } else {
@@ -173,8 +174,16 @@ public class InventoryScreen implements Screen {
             this.game.getConvoy().getCharacters().get(i).getWaterBar().deltaUpdate(deltaW);
             this.game.getConvoy().getCharacters().get(i).getHealthBar().deltaUpdate(deltaH);
 
+            this.updateInventory(deltaF/Game.baseMultiplier, deltaW/Game.baseMultiplier, deltaH/Game.baseMultiplier);
 
         }
+    }
+
+    private void updateInventory(int deltaF, int deltaW, int deltaH) {
+        this.game.getConvoy().getInventory().update(Resource.generateFoodItem(this.game), - deltaF);
+        this.game.getConvoy().getInventory().update(Resource.generateDrinkItem(this.game), - deltaW);
+        this.game.getConvoy().getInventory().update(Resource.generateMedicalItem(this.game), - deltaH);
+
     }
 
     private void checkCorrectAssignment(Item resourceType, int column) {

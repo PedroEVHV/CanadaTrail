@@ -74,6 +74,8 @@ public class TransitionScreen implements Screen {
                     this.updateVitals(c, Game.baseMultiplier );
                 }
 
+                this.game.checkForDeaths();
+
             }
             lastTickTime = TimeUtils.nanoTime();
         }

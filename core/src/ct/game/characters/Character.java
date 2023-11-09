@@ -1,9 +1,12 @@
 package ct.game.characters;
 
 
+import ct.game.Game;
 import ct.game.utils.status.StatusBar;
+import org.checkerframework.checker.units.qual.A;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Character {
 
@@ -50,6 +53,22 @@ public class Character {
 
     public StatusBar getWaterBar() {
         return waterBar;
+    }
+
+    public boolean equals(Character character) {
+        return Objects.equals(character.getId(), this.getId());
+    }
+
+    public void die(Game game) {
+        ArrayList<Character> newCharList = new ArrayList<>();
+
+        for(Character c : game.getConvoy().getCharacters()) {
+            if(!c.equals(this)) {
+                newCharList.add(c);
+            }
+        }
+
+        game.getConvoy().setCharacters(newCharList);
     }
 
 }

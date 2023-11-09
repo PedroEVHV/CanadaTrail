@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import ct.game.characters.Character;
 import ct.game.convoys.Convoy;
 import ct.game.events.Event;
 import ct.game.exceptions.GraphQLException;
@@ -192,4 +193,16 @@ public class Game extends com.badlogic.gdx.Game implements GraphQlClientInterfac
 
 
 	// Methods
+
+	public void checkForDeaths() {
+		ArrayList<Character> deadCharacters = new ArrayList<>();
+		for(Character c : this.convoy.getCharacters()) {
+			if(c.getHealthBar().getValue() == 0 || c.getFoodBar().getValue() == 0 || c.getWaterBar().getValue() == 0) {
+				deadCharacters.add(c);
+			}
+		}
+		for(Character c : deadCharacters) {
+			c.die(this);
+		}
+	}
 }

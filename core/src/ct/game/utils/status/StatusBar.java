@@ -39,6 +39,8 @@ public class StatusBar {
     public void deltaUpdate(float delta) {
         if(this.value + delta < 0) {
             this.value = 0;
+        } else if(this.value + delta > 100) {
+            this.value = 100;
         } else {
             this.value += (int) delta;
         }

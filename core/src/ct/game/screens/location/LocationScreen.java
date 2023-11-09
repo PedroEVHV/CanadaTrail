@@ -48,14 +48,14 @@ public class LocationScreen implements Screen {
         game.getFont().getData().setScale(2,2);
         game.getFont().draw( //Draw description text
                 game.getSpriteBatch(),location.getDescription(),
-                this.game.getScreenConfiguration().getX()/2f + 5f,
+                this.game.getScreenConfiguration().getX()/2f + 30f,
                 this.game.getScreenConfiguration().getY() * 0.9f,
                 this.game.getScreenConfiguration().getX()/2f * 0.7f,
                 1, true
         );
         this.game.getFont().draw(
                 this.game.getSpriteBatch(), "Press Space to continue...",
-                this.game.getScreenConfiguration().getX()*0.69f,
+                this.game.getScreenConfiguration().getX()*0.6f,
                 this.game.getScreenConfiguration().getY()*0.06f
         );
         this.game.getSpriteBatch().draw(locationTexture, imagePosX, imagePosY, imageWidth, imageHeight);

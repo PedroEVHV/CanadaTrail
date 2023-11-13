@@ -8,7 +8,7 @@ import java.util.Objects;
 public abstract class Resource {
     public static Item generateFoodItem(Game game) {
         for(Item i : game.getGameItems()) {
-            if(Objects.equals(i.getItemClass(), "food")) {
+            if(Objects.equals(i.getItemClass(), "FOOD")) {
                 return i;
             }
         }
@@ -17,7 +17,7 @@ public abstract class Resource {
 
     public static Item generateDrinkItem(Game game) {
         for(Item i : game.getGameItems()) {
-            if(Objects.equals(i.getItemClass(), "drink")) {
+            if(Objects.equals(i.getItemClass(), "DRINK")) {
                 return i;
             }
         }
@@ -26,7 +26,7 @@ public abstract class Resource {
 
     public static Item generateMedicalItem(Game game) {
         for(Item i : game.getGameItems()) {
-            if(Objects.equals(i.getItemClass(), "medical")) {
+            if(Objects.equals(i.getItemClass(), "MEDICAL")) {
                 return i;
             }
         }

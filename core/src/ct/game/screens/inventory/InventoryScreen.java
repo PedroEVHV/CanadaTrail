@@ -56,7 +56,7 @@ public class InventoryScreen implements Screen {
         float configX = this.game.getScreenConfiguration().getX();
         float configY = this.game.getScreenConfiguration().getY();
 
-        for(int i = 0; i < 4; i++) {
+        for(int i = 0; i < this.game.getConvoy().getCharacters().size(); i++) {
             ResourceAssigner foodAssigner = new ResourceAssigner(this.game, foodTexture, configX*0.65f, configY*0.8f - i*125f);
 
             this.assignButtons.put( i * 10 + 0, foodAssigner);
@@ -124,7 +124,7 @@ public class InventoryScreen implements Screen {
 
 
         if (Gdx.input.isTouched()) {
-            Rectangle nextButton = new Rectangle(configX*0.8f, configY*0.9f, configX*0.2f, configY*0.1f);
+            Rectangle nextButton = new Rectangle(configX*0.76f, configY*0.9f, configX*0.2f, configY*0.1f);
             if(nextButton.contains(Gdx.input.getX(), Gdx.input.getY()) && assignmentValidity) {
                 setupVitals();
 
@@ -209,5 +209,9 @@ public class InventoryScreen implements Screen {
         } else {
             this.assignmentValidity = true;
         }
+    }
+
+    private void drawInventory() {
+
     }
 }

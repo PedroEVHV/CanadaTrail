@@ -19,16 +19,16 @@ public class Character {
     private StatusBar healthBar;
     private ArrayList<Trait> traits;
 
-    public Character(String saveId, String name1, String name2, ArrayList<Trait> traits) {
-        this.id = "CHARID_" + saveId + "_char:" + idCounter;
+    public Character(String id, String name1, String name2, ArrayList<Trait> traits) {
+        this.id = id;
         idCounter++;
         this.name1 = name1;
         this.name2 = name2;
         this.traits = traits;
 
-        this.foodBar = new StatusBar(saveId, 100, "food");
-        this.waterBar = new StatusBar(saveId, 100, "water");
-        this.healthBar = new StatusBar(saveId, 100, "health");
+        this.foodBar = new StatusBar(100, "food");
+        this.waterBar = new StatusBar( 100, "water");
+        this.healthBar = new StatusBar(100, "health");
     }
 
     public String getId() {

@@ -17,6 +17,9 @@ type Event {
 
 type Trait {
     id:ID!
+    name:String
+    description:String
+    duration:Int
 }
 
 type Character {
@@ -80,6 +83,8 @@ type Query {
     locations : [Location]
     events : [Event]
     setup : Setup
+    traits : [Trait]
+    event(code: String!) : Event
 }
 
 

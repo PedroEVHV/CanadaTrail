@@ -3,7 +3,6 @@ package ct.game.events;
 import java.util.ArrayList;
 
 public class Event {
-    private static int idCounter = 0;
     private String id;
     private String name;
     private String description;
@@ -12,15 +11,21 @@ public class Event {
 
     private String spriteCode;
 
-    public Event(String saveId, String name, String description, String effectCode, ArrayList<EventOption> options, String spriteCode) {
-        this.id = "EVENTID_" + saveId + "_event:" + idCounter;
-        idCounter++;
+    public Event(String id, String name, String description, String effectCode, ArrayList<EventOption> options, String spriteCode) {
+        this.id = id;
         this.name = name;
         this.description = description;
         this.effectCode = effectCode;
         this.options = options;
         this.spriteCode = spriteCode;
     }
+
+    /*
+        effect code :
+        i#id$amount@id$amount
+        c#id$stat$type$amount@id$stat...
+        c#id$trait$add/remove$
+     */
 
     //getters
 

@@ -1,6 +1,8 @@
 package ct.game.graphql;
 
 import ct.game.characters.Character;
+import ct.game.characters.Trait;
+import ct.game.events.Event;
 import ct.game.geographical.Location;
 import ct.game.inventories.Item;
 import org.apache.http.HttpResponse;
@@ -19,7 +21,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public interface GraphQlClientInterface {
-    static HttpResponse request(String query, String url) throws RuntimeException, IOException, URISyntaxException {
+    static HttpResponse request(String query, String url, HashMap<String, String> arguments) throws RuntimeException, IOException, URISyntaxException {
         //source : https://techndeck.com/post-request-with-json-body-using-apache-httpclient/
 
         CloseableHttpClient client = HttpClientBuilder.create().build();
@@ -28,6 +30,17 @@ public interface GraphQlClientInterface {
         request.setHeader("Content-type", "application/json");
         JSONObject json = new JSONObject();
         json.put("query", query);
+        if(arguments != null) {
+            JSONObject args = new JSONObject();
+            for(String s : arguments.keySet()) {
+                args.put(s, arguments.get(s));
+            }
+            json.put("variables", args);
+            System.out.println(json);
+
+        }
+
+        System.out.println(json);
         StringEntity stringEntity = new StringEntity(json.toString());
         request.setEntity(stringEntity);
         HttpResponse response = null;
@@ -49,7 +62,7 @@ public interface GraphQlClientInterface {
         ArrayList<Character> output = new ArrayList<>();
         HttpResponse response;
         try {
-            response = request(query, url);
+            response = request(query, url, null);
             BufferedReader buffer = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
             String line ="";
             StringBuffer stringBuffer = new StringBuffer();
@@ -65,7 +78,7 @@ public interface GraphQlClientInterface {
             for(int i = 0; i < charactersArray.length(); i++) {
                 JSONObject tempObj = (JSONObject) charactersArray.get(i);
 
-                output.add(new Character("SAV0", (String) tempObj.get("name1"), (String) tempObj.get("name2"), new ArrayList<>()));
+                output.add(new Character((String) tempObj.get("id"), (String) tempObj.get("name1"), (String) tempObj.get("name2"), new ArrayList<>()));
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -80,7 +93,7 @@ public interface GraphQlClientInterface {
         ArrayList<Location> output = new ArrayList<>();
         HttpResponse response;
         try {
-            response = request(query, url);
+            response = request(query, url, null);
             BufferedReader buffer = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
             String line ="";
             StringBuffer stringBuffer = new StringBuffer();
@@ -96,7 +109,7 @@ public interface GraphQlClientInterface {
             for(int i = 0; i < locationsArray.length(); i++) {
                 JSONObject tempObj = (JSONObject) locationsArray.get(i);
 
-                output.add(new Location("SAV0", (String) tempObj.get("name"), (String) tempObj.get("description"), (String) tempObj.get("spriteCode"), new ArrayList<>()));
+                output.add(new Location((String) tempObj.get("id"), (String) tempObj.get("name"), (String) tempObj.get("description"), (String) tempObj.get("spriteCode"), new ArrayList<>()));
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -112,7 +125,7 @@ public interface GraphQlClientInterface {
         ArrayList<Item> output = new ArrayList<>();
         HttpResponse response;
         try {
-            response = request(query, url);
+            response = request(query, url, null);
             BufferedReader buffer = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
             String line ="";
             StringBuilder responseString = new StringBuilder();
@@ -125,7 +138,37 @@ public interface GraphQlClientInterface {
             for(int i = 0; i < itemsArray.length(); i++) {
                 JSONObject tempObj = (JSONObject) itemsArray.get(i);
 
-                output.add(new Item("SAV0", (String) tempObj.get("name"), (String) tempObj.get("description"), (String) tempObj.get("effectCode")));
+                output.add(new Item((String) tempObj.get("id"), (String) tempObj.get("name"), (String) tempObj.get("description"), (String) tempObj.get("effectCode")));
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return output;
+        }
+
+
+        return output;
+
+    }
+
+
+    static ArrayList<Trait> listTraits(String query, String url) {
+        ArrayList<Trait> output = new ArrayList<>();
+        HttpResponse response;
+        try {
+            response = request(query, url, null);
+            BufferedReader buffer = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
+            String line ="";
+            StringBuilder responseString = new StringBuilder();
+            while((line = buffer.readLine()) != null) {
+                responseString.append(line);
+            }
+            String parsedResponse = new String(responseString);
+            JSONObject json = (JSONObject) new JSONObject(parsedResponse).get("data");
+            JSONArray itemsArray = (JSONArray) json.get("traits");
+            for(int i = 0; i < itemsArray.length(); i++) {
+                JSONObject tempObj = (JSONObject) itemsArray.get(i);
+
+                output.add(new Trait((String) tempObj.get("id"), (String) tempObj.get("name"), (String) tempObj.get("description"), (String) tempObj.get("duration")));
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -139,10 +182,10 @@ public interface GraphQlClientInterface {
 
 
     static HashMap<String, Integer> loadInventorySetup(String query, String url){
-        HashMap<String, Integer> output = new HashMap<String, Integer>();
+        HashMap<String, Integer> output = new HashMap<>();
         HttpResponse response;
         try {
-            response = request(query, url);
+            response = request(query, url, null);
             BufferedReader buffer = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
             String line ="";
             StringBuilder responseString = new StringBuilder();
@@ -166,5 +209,21 @@ public interface GraphQlClientInterface {
 
 
         return output;
+    }
+
+
+    static Event getEvent(String query, String url, String eventCode) {
+        HttpResponse response;
+        try{
+            HashMap<String, String> args = new HashMap<>();
+            args.put("code", eventCode);
+            response = request(query, url, args);
+
+
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
     }
 }

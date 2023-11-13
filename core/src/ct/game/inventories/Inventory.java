@@ -11,4 +11,13 @@ public class Inventory extends HashMap<Item, Integer> implements InventoryInterf
             this.replace(item, this.get(item) + amount);
         }
     }
+
+    @Override
+    public String toString() {
+        StringBuilder output = new StringBuilder("Inventory : \n");
+        for(Item i : this.keySet()) {
+            output.append("> ").append(i.getId()).append(" : ").append(this.get(i)).append("\n");
+        }
+        return output.toString();
+    }
 }

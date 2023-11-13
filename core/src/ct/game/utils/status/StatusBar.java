@@ -12,8 +12,8 @@ public class StatusBar {
     private int maxValue;
     private int value;
 
-    public StatusBar(String saveId, int maxValue, String name) {
-        this.id = "STATUSID_" + saveId + "status:" + idCounter;
+    public StatusBar(int maxValue, String name) {
+        this.id = "STATUSID_status:" + idCounter;
         idCounter++;
         this.maxValue = maxValue;
         this.name = name;

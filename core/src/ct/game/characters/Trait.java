@@ -6,10 +6,13 @@ public class Trait {
     private String name;
     private String description;
 
-    Trait(String id, String name, String description) {
+    private float duration;
+
+    public Trait(String id, String name, String description, String duration) {
         this.id = id;
         this.name = name;
         this.description = description;
+        this.duration = (float) Integer.parseInt(duration);
     }
 
     //Getters
@@ -23,5 +26,9 @@ public class Trait {
     }
     public String getDescription() {
         return description;
+    }
+
+    public float getDuration() {
+        return duration;
     }
 }

@@ -95,6 +95,11 @@ public class Game extends com.badlogic.gdx.Game implements GraphQlClientInterfac
 
 	@Override
 	public void create () {
+		//test area
+
+
+
+
 		//Default screen settings
 		this.screenConfiguration = new ScreenConfiguration(1150,650, false);
 		this.setup = new Setup(inventorySetupQuery, url, this);
@@ -139,6 +144,7 @@ public class Game extends com.badlogic.gdx.Game implements GraphQlClientInterfac
 			if(this.convoy.getInventory().isEmpty()) {
 				throw new GraphQLException("Inventory setup not loaded !", this);
 			}
+
 			this.setScreen(new MainMenuScreen(this, this.screenConfiguration));
 		} catch (GraphQLException exception) {
 			exception.setErrorScreen();

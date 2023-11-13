@@ -1,16 +1,15 @@
 package ct.game.inventories;
 
 public class Item {
-    private static int idCounter = 0;
+
     private String id;
     private String name;
     private String description;
 
     private String itemClass;
 
-    public Item(String saveId, String name, String description, String itemClass) {
-        this.id = "ITEMID_" + saveId + "_item:" + idCounter;
-        idCounter++;
+    public Item(String id, String name, String description, String itemClass) {
+        this.id = id;
         this.name = name;
         this.description = description;
         this.itemClass = itemClass;

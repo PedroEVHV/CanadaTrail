@@ -65,17 +65,17 @@ public class Game extends com.badlogic.gdx.Game implements GraphQlClientInterfac
 					"  }\n" +
 					"}";
 
-	private static String inventorySetupQuery =
-			"query ExampleQuery {\n" +
-					"\n" +
-					"  setup {\n" +
-					"    id\n" +
-					"    food\n" +
-					"    water\n" +
-					"    medical\n" +
-					"    travelers\n" +
-					"  }\n" +
-					"}";
+	private static String inventorySetupQuery = "query Setup {\n" +
+			"  setup {\n" +
+			"    food\n" +
+			"    id\n" +
+			"    medical\n" +
+			"    travelers\n" +
+			"    eventCap\n" +
+			"    water\n" +
+			"    name\n" +
+			"  }\n" +
+			"}";
 
 	public final static Color waterColor = new Color(102f/255f, 195f/255f, 214f/255f, 1.0f);
 	public final static Color foodColor = new Color(163f/255f, 105f/255f, 63f/255f, 1.0f);
@@ -86,8 +86,6 @@ public class Game extends com.badlogic.gdx.Game implements GraphQlClientInterfac
 	private Convoy convoy;
 	private Map map;
 	private ArrayList<Item> gameItems;
-	private ArrayList<Event> events;
-
 	private Setup setup;
 
 
@@ -102,7 +100,7 @@ public class Game extends com.badlogic.gdx.Game implements GraphQlClientInterfac
 
 		//Default screen settings
 		this.screenConfiguration = new ScreenConfiguration(1150,650, false);
-		this.setup = new Setup(inventorySetupQuery, url, this);
+		this.setup = GraphQlClientInterface.loadSetup(inventorySetupQuery, url);
 
 		System.out.println("creating game components");
 		this.spriteBatch = new SpriteBatch();
@@ -119,10 +117,6 @@ public class Game extends com.badlogic.gdx.Game implements GraphQlClientInterfac
 				System.out.println("empty");
 				throw new GraphQLException("Item data not loaded !", this);
 			}
-
-
-
-			this.events = new ArrayList<>();
 
 
 
@@ -195,6 +189,10 @@ public class Game extends com.badlogic.gdx.Game implements GraphQlClientInterfac
 
 	public ScreenConfiguration getScreenConfiguration() {
 		return screenConfiguration;
+	}
+
+	public static String getUrl() {
+		return url;
 	}
 
 

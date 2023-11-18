@@ -44,4 +44,8 @@ public class Event {
     public String getEffectCode() {
         return effectCode;
     }
+
+    public ArrayList<EventOption> getOptions() {
+        return options;
+    }
 }

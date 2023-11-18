@@ -3,6 +3,7 @@ export function gameSetup() {
         "id" : "SETUP0",
         "name" : "Default start",
         "travelers" : 4,
+        "eventCap" : 1,
         "food" : {
             "amount" : 10,
             "item" : "ITEMID_item:1",

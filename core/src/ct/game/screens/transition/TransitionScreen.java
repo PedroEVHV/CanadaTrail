@@ -10,7 +10,10 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.TimeUtils;
 import ct.game.Game;
 import ct.game.characters.Character;
+import ct.game.events.Event;
+import ct.game.graphql.GraphQlClientInterface;
 import ct.game.screens.ScreenConfiguration;
+import ct.game.screens.event.EventScreen;
 import ct.game.screens.location.LocationScreen;
 
 
@@ -25,6 +28,20 @@ public class TransitionScreen implements Screen {
     private Float transitionProgress;
 
     private long lastTickTime;
+
+    private static String eventQuery = "query Events($code: String!) {\n" +
+            "  event(code: $code) {\n" +
+            "    id\n" +
+            "    description\n" +
+            "    eventCode\n" +
+            "    options {\n" +
+            "      effectCode\n" +
+            "      number\n" +
+            "      text\n" +
+            "    }\n" +
+            "    title\n" +
+            "  }\n" +
+            "}\n";
 
 
 
@@ -65,6 +82,9 @@ public class TransitionScreen implements Screen {
                 float randomFloat = random.nextFloat();
 
                 if(randomFloat < 0.2) {
+                    int eventNumber = random.nextInt(0, this.game.getSetup().getEventCap());
+                    Event e = GraphQlClientInterface.getEvent(eventQuery, Game.getUrl(), String.valueOf(eventNumber));
+                    this.game.setScreen(new EventScreen(this.game, this.game.getScreenConfiguration(), e, this));
                     //event
                 }
                 this.transitionProgress += 0.1f;

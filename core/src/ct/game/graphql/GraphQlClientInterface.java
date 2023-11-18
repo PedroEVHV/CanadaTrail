@@ -3,8 +3,10 @@ package ct.game.graphql;
 import ct.game.characters.Character;
 import ct.game.characters.Trait;
 import ct.game.events.Event;
+import ct.game.events.EventOption;
 import ct.game.geographical.Location;
 import ct.game.inventories.Item;
+import ct.game.utils.Setup;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
@@ -36,11 +38,9 @@ public interface GraphQlClientInterface {
                 args.put(s, arguments.get(s));
             }
             json.put("variables", args);
-            System.out.println(json);
+            //System.out.println(json);
 
         }
-
-        System.out.println(json);
         StringEntity stringEntity = new StringEntity(json.toString());
         request.setEntity(stringEntity);
         HttpResponse response = null;
@@ -181,8 +181,11 @@ public interface GraphQlClientInterface {
     }
 
 
-    static HashMap<String, Integer> loadInventorySetup(String query, String url){
-        HashMap<String, Integer> output = new HashMap<>();
+    static Setup loadSetup(String query, String url){
+        Setup output;
+        HashMap<String, Integer> inv = new HashMap<>();
+        int trav = 0;
+        int eventCap = 0;
         HttpResponse response;
         try {
             response = request(query, url, null);
@@ -194,36 +197,67 @@ public interface GraphQlClientInterface {
             }
             String parsedResponse = new String(responseString);
             JSONObject json = (JSONObject) new JSONObject(parsedResponse).get("data");
+            //System.out.println(json);
             JSONObject setupJson = json.getJSONObject("setup");
+            //JSONObject tempObj = setupJson.getJSONObject("travelers");
+            trav = setupJson.getInt("travelers");
+            eventCap = setupJson.getInt("eventCap");
             JSONObject tempObj = setupJson.getJSONObject("food");
 
-            output.put((String) tempObj.get("item"), (Integer) tempObj.get("amount"));
+            //.out.println("first data");
+
+            inv.put((String) tempObj.get("item"), (Integer) tempObj.get("amount"));
             tempObj = setupJson.getJSONObject("water");
-            output.put((String) tempObj.get("item"), (Integer) tempObj.get("amount"));
+            inv.put((String) tempObj.get("item"), (Integer) tempObj.get("amount"));
             tempObj = setupJson.getJSONObject("medical");
-            output.put((String) tempObj.get("item"), (Integer) tempObj.get("amount"));
+            inv.put((String) tempObj.get("item"), (Integer) tempObj.get("amount"));
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            return output;
+            return null;
         }
 
 
-        return output;
+        return new Setup(inv, trav, eventCap);
     }
 
 
     static Event getEvent(String query, String url, String eventCode) {
+        String id, name, description;
+        ArrayList<EventOption> options = new ArrayList<>();
         HttpResponse response;
         try{
             HashMap<String, String> args = new HashMap<>();
             args.put("code", eventCode);
             response = request(query, url, args);
+            BufferedReader buffer = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
+            String line ="";
+            StringBuilder responseString = new StringBuilder();
+            while((line = buffer.readLine()) != null) {
+                responseString.append(line);
+            }
+            String parsedResponse = new String(responseString);
+            JSONObject json = (JSONObject) new JSONObject(parsedResponse).get("data");
+            System.out.println(json);
+            JSONObject eventJson = (JSONObject) json.get("event");
+            System.out.println(eventJson);
+            id = String.valueOf(eventJson.get("id"));
 
+            name = String.valueOf(eventJson.get("title"));
 
+            description = String.valueOf(eventJson.get("description"));
+
+            JSONArray optionsObject = new JSONArray(eventJson.getJSONArray("options"));
+            for(int i = 0; i < optionsObject.length(); i++) {
+                JSONObject obj = (JSONObject) optionsObject.get(i);
+
+                options.add(new EventOption((Integer) obj.get("number"), (String) obj.get("text"), (String) obj.get("effectCode")));
+
+            }
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
+            return null;
         }
-        return null;
+        return new Event(id, name, description, "", options, "");
     }
 }

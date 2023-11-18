@@ -71,6 +71,7 @@ type Setup {
     id:ID!
     name: String
     travelers: Int
+    eventCap: Int
     food: JSON
     water: JSON
     medical: JSON

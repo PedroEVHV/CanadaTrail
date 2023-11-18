@@ -29,7 +29,7 @@ const resolvers = {
     locations : () => locations,
     events : () => events,
     event(parent, args, contextValue, info) {
-        return events.find((event) => event.id === args.code)
+        return events.find((event) => event.eventCode === args.code)
     },
     traits : () => traits,
     setup : () => game_setup,

@@ -50,9 +50,6 @@ public class MainMenuScreen implements Screen {
         game.getSpriteBatch().end();
 
         if (Gdx.input.isTouched() && this.titleBox.contains(Gdx.input.getX(), Gdx.input.getY())) {
-
-
-
             game.setScreen(new IntroductionScreen(game, game.getScreenConfiguration()));
             dispose();
         }

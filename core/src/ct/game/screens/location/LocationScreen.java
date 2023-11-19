@@ -64,7 +64,7 @@ public class LocationScreen implements Screen {
 
         if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
             if(this.game.getMap().getTrailPosition() >= this.game.getMap().getTrail().getLocations().size()-1) {
-                this.game.setScreen(new EndScreen(this.game, this.game.getScreenConfiguration()));
+                this.game.setScreen(new EndScreen(this.game, this.game.getScreenConfiguration(), true));
             } else {
                 game.setScreen(new InventoryScreen(this.game, this.game.getScreenConfiguration()));
             }

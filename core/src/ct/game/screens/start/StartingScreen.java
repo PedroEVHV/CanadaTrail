@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.ScreenUtils;
 import ct.game.Game;
 import ct.game.screens.ScreenConfiguration;
@@ -65,4 +66,6 @@ public class StartingScreen implements Screen {
     public void dispose() {
 
     }
+
+
 }

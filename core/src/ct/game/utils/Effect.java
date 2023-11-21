@@ -1,13 +1,13 @@
 package ct.game.utils;
 
 import ct.game.Game;
-import ct.game.exceptions.ItemException;
+import ct.game.exceptions.ClientException;
 import ct.game.inventories.Item;
 
 import java.util.Objects;
 
 public abstract class Effect {
-    public static void applyEffect(Game game, String command) throws ItemException {
+    public static void applyEffect(Game game, String command) throws ClientException {
         //Code parsing
         String[] commands = command.split("=");
         for(int i = 0; i < commands.length; i++) {
@@ -32,7 +32,7 @@ public abstract class Effect {
                     if(item != null) {
                         game.getConvoy().getInventory().update(item, amount);
                     } else {
-                        throw new ItemException("Unknown item ID used in inventory update", game);
+                        throw new ClientException("Unknown item ID used in inventory update", game);
                     }
 
                     //add/remove items
@@ -62,7 +62,9 @@ public abstract class Effect {
                     } else if(Objects.equals(affectType, "trait")) {
                         String action = var[2];
                         if(Objects.equals(action, "add")) {
-                            game.getConvoy();
+                            game.getConvoy().getCharacters().get(id).addTrait(game, var[3]);
+                        } else if(Objects.equals(action, "remove")) {
+                            game.getConvoy().getCharacters().get(id).addTrait(game, var[3]);
                         }
                     }
                 }
@@ -77,5 +79,5 @@ public abstract class Effect {
         effect code :
         i#id!amount@id!amount=
         c#id!stat!type!amount@id!stat...=
-        c#id!trait!add/remove!=
+        c#id!trait!add/remove!code=
      */

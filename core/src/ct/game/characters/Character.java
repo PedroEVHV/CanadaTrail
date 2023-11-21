@@ -86,4 +86,12 @@ public class Character {
         }
     }
 
+    public void removeTrait(Game game, String id) {
+        for(Trait trait : game.getGameTraits()) {
+            if(Objects.equals(trait.getId(), id) && this.traits.contains(trait)) {
+                this.traits.remove(trait);
+            }
+        }
+    }
+
 }

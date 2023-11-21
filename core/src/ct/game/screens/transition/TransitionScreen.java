@@ -12,7 +12,7 @@ import ct.game.Game;
 import ct.game.characters.Character;
 import ct.game.characters.Trait;
 import ct.game.events.Event;
-import ct.game.exceptions.ItemException;
+import ct.game.exceptions.ClientException;
 import ct.game.graphql.GraphQlClientInterface;
 import ct.game.screens.ScreenConfiguration;
 import ct.game.screens.event.EventScreen;
@@ -98,7 +98,7 @@ public class TransitionScreen implements Screen {
                         for(Trait t : c.getTraits()) {
                             try {
                                 Effect.applyEffect(game, t.getEffectCommand());
-                            } catch (ItemException e) {
+                            } catch (ClientException e) {
                                 e.setErrorScreen();
                             }
                         }

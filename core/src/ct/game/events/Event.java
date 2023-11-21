@@ -1,13 +1,10 @@
 package ct.game.events;
 
 import ct.game.Game;
-import ct.game.exceptions.ItemException;
-import ct.game.inventories.Item;
-import ct.game.screens.error.ClientExceptionScreen;
+import ct.game.exceptions.ClientException;
 import ct.game.utils.Effect;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class Event {
     private String id;
@@ -57,7 +54,7 @@ public class Event {
     }
 
 
-    public void applyOption(EventOption option, Game game) throws ItemException {
+    public void applyOption(EventOption option, Game game) throws ClientException {
         Effect.applyEffect(game, option.getEffectCode());
     }
 }

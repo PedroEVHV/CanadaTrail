@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import ct.game.characters.Character;
+import ct.game.characters.Trait;
 import ct.game.convoys.Convoy;
 import ct.game.events.Event;
 import ct.game.exceptions.GraphQLException;
@@ -78,6 +79,8 @@ public class Game extends com.badlogic.gdx.Game implements GraphQlClientInterfac
 			"  }\n" +
 			"}";
 
+	private static String traitQuery = "";
+
 	public final static Color waterColor = new Color(102f/255f, 195f/255f, 214f/255f, 1.0f);
 	public final static Color foodColor = new Color(163f/255f, 105f/255f, 63f/255f, 1.0f);
 	public final static Color healthColor = new Color(145f/255f, 22f/255f, 22f/255f, 1.0f);
@@ -87,6 +90,7 @@ public class Game extends com.badlogic.gdx.Game implements GraphQlClientInterfac
 	private Convoy convoy;
 	private Map map;
 	private ArrayList<Item> gameItems;
+	private ArrayList<Trait> gameTraits;
 	private Setup setup;
 
 
@@ -118,6 +122,8 @@ public class Game extends com.badlogic.gdx.Game implements GraphQlClientInterfac
 				System.out.println("empty");
 				throw new GraphQLException("Item data not loaded !", this);
 			}
+
+			this.gameTraits = GraphQlClientInterface.listTraits(traitQuery, url);
 
 
 
@@ -178,6 +184,10 @@ public class Game extends com.badlogic.gdx.Game implements GraphQlClientInterfac
 
 	public ArrayList<Item> getGameItems() {
 		return gameItems;
+	}
+
+	public ArrayList<Trait> getGameTraits() {
+		return gameTraits;
 	}
 
 	public Setup getSetup() {

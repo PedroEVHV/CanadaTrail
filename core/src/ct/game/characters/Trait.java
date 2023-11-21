@@ -37,4 +37,12 @@ public class Trait {
     public String getEffectCommand() {
         return effectCommand;
     }
+
+    public void updateDuration(float delta) {
+        if(this.duration + delta < 0) {
+            this.duration += 0;
+        } else {
+            this.duration += delta;
+        }
+    }
 }

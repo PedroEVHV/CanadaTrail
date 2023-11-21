@@ -60,7 +60,10 @@ public abstract class Effect {
 
 
                     } else if(Objects.equals(affectType, "trait")) {
-
+                        String action = var[2];
+                        if(Objects.equals(action, "add")) {
+                            game.getConvoy();
+                        }
                     }
                 }
 
@@ -69,3 +72,10 @@ public abstract class Effect {
         }
     }
 }
+
+    /*
+        effect code :
+        i#id!amount@id!amount=
+        c#id!stat!type!amount@id!stat...=
+        c#id!trait!add/remove!=
+     */

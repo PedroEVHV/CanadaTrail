@@ -74,8 +74,16 @@ public class Character {
         this.alive = false;
     }
 
-    public void addTrait(Game game) {
-
+    public void addTrait(Game game, String id) {
+        for(Trait trait : game.getGameTraits()) {
+            if(Objects.equals(trait.getId(), id)) {
+                if(this.traits.contains(trait) && trait.getDuration() > -1) {
+                    this.traits.get(this.traits.indexOf(trait)).updateDuration(trait.getDuration());
+                } else if(!this.traits.contains(trait)){
+                    this.traits.add(trait);
+                }
+            }
+        }
     }
 
 }

@@ -9,7 +9,7 @@ export function eventsInit() {
                 {
                     "number" : "1",
                     "text" : "Let's grab our gear...",
-                    "effectCode" : "i#ITEMID_item:1$3@ITEMID_item:4$-2",
+                    "effectCode" : "i#ITEMID_item:1!3@ITEMID_item:4!-2",
                 },
                 {
                     "number" : "2",
@@ -21,13 +21,13 @@ export function eventsInit() {
         {
             "id" : "EVENTID_event:1",
             "name" : "Lucky findings on the road !",
-            "description" : "You spot a wild animal in the distance. It has not yet noticed you. Would that be a good opportunity for some hunting ?",
+            "description" : "You find some abandoned supplies alongside the road.",
             "effectCode" : "1",
             "options" : [
                 {
                     "number" : "1",
                     "text" : "It's free real estate...",
-                    "effect" : "i#ITEMID_item:1$1",
+                    "effect" : "i#ITEMID_item:1!1",
                 }
             ]
         }

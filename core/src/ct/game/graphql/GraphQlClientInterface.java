@@ -184,6 +184,7 @@ public interface GraphQlClientInterface {
     static Setup loadSetup(String query, String url){
         Setup output;
         HashMap<String, Integer> inv = new HashMap<>();
+        HashMap<String, String> assets = new HashMap<>();
         int trav = 0;
         int eventCap = 0;
         HttpResponse response;
@@ -197,7 +198,7 @@ public interface GraphQlClientInterface {
             }
             String parsedResponse = new String(responseString);
             JSONObject json = (JSONObject) new JSONObject(parsedResponse).get("data");
-            //System.out.println(json);
+            System.out.println(json);
             JSONObject setupJson = json.getJSONObject("setup");
             //JSONObject tempObj = setupJson.getJSONObject("travelers");
             trav = setupJson.getInt("travelers");
@@ -211,13 +212,19 @@ public interface GraphQlClientInterface {
             inv.put((String) tempObj.get("item"), (Integer) tempObj.get("amount"));
             tempObj = setupJson.getJSONObject("medical");
             inv.put((String) tempObj.get("item"), (Integer) tempObj.get("amount"));
+
+
+            tempObj = setupJson.getJSONObject("assets");
+            assets.put("main_menu_bg", (String) tempObj.get("main_menu_bg"));
+            assets.put("map", (String) tempObj.get("map"));
+
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return null;
         }
 
 
-        return new Setup(inv, trav, eventCap);
+        return new Setup(inv, trav, eventCap, assets);
     }
 
 

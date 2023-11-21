@@ -18,6 +18,10 @@ export function gameSetup() {
             "amount" : 10,
             "item" : "ITEMID_item:10",
             "mult" : 10
+        },
+        "assets" : {
+            "main_menu_bg" : "interface_sprites/home.png",
+            "map" : "interface_sprites/map.png",
         }
     }
 }

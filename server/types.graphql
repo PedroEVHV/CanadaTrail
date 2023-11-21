@@ -75,6 +75,7 @@ type Setup {
     food: JSON
     water: JSON
     medical: JSON
+    assets: JSON
 
 }
 

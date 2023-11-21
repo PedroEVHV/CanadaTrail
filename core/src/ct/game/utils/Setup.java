@@ -10,10 +10,13 @@ public class Setup {
     private int travelers;
     private int eventCap;
 
-    public Setup(HashMap<String, Integer> inv, int travelers, int eventCap) {
+    HashMap<String, String> assets;
+
+    public Setup(HashMap<String, Integer> inv, int travelers, int eventCap, HashMap<String, String> assets) {
         this.inventoryData = inv;
         this.travelers = travelers;
         this.eventCap = eventCap;
+        this.assets = assets;
     }
 
     public HashMap<String, Integer> getInventoryData() {
@@ -26,5 +29,9 @@ public class Setup {
 
     public int getTravelers() {
         return travelers;
+    }
+
+    public HashMap<String, String> getAssets() {
+        return assets;
     }
 }

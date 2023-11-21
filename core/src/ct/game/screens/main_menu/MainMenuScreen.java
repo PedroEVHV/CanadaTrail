@@ -82,7 +82,8 @@ public class MainMenuScreen implements Screen {
 
     private void displayBackgroundImage() {
         try {
-            Texture background = new Texture(Gdx.files.internal("interface_sprites/home.png"));
+
+            Texture background = new Texture(Gdx.files.internal(this.game.getSetup().getAssets().get("main_menu_bg")));
             this.game.getSpriteBatch().draw(background, 0, 0, this.game.getScreenConfiguration().getX(), this.game.getScreenConfiguration().getY());
         } catch (Exception e) {
             System.out.println(e.getMessage());

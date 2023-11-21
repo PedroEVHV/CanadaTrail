@@ -207,7 +207,7 @@ public class Game extends com.badlogic.gdx.Game implements GraphQlClientInterfac
 			}
 		}
 		for(Character c : deadCharacters) {
-			c.die(this);
+			c.die();
 		}
 	}
 }

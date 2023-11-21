@@ -10,11 +10,14 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.TimeUtils;
 import ct.game.Game;
 import ct.game.characters.Character;
+import ct.game.characters.Trait;
 import ct.game.events.Event;
+import ct.game.exceptions.ItemException;
 import ct.game.graphql.GraphQlClientInterface;
 import ct.game.screens.ScreenConfiguration;
 import ct.game.screens.event.EventScreen;
 import ct.game.screens.location.LocationScreen;
+import ct.game.utils.Effect;
 
 
 import java.util.Random;
@@ -91,7 +94,17 @@ public class TransitionScreen implements Screen {
 
                 //Update vitals
                 for(Character c : this.game.getConvoy().getCharacters()) {
-                    this.updateVitals(c, Game.baseMultiplier );
+                    if(c.isAlive()) {
+                        for(Trait t : c.getTraits()) {
+                            try {
+                                Effect.applyEffect(game, t.getEffectCommand());
+                            } catch (ItemException e) {
+                                e.setErrorScreen();
+                            }
+                        }
+                        this.updateVitals(c, Game.baseMultiplier );
+                    }
+
                 }
 
                 this.game.checkForDeaths();
@@ -109,17 +122,22 @@ public class TransitionScreen implements Screen {
 
         int count = 0;
         for(Character c : this.game.getConvoy().getCharacters()) {
-            c.getHealthBar().draw(this.game, Game.healthColor, configX * 0.2f, configY - count * 30f - 25f, 1f, 15f);
-            c.getFoodBar().draw(this.game, Game.foodColor, configX * 0.3f, configY - count * 30f - 25f, 1f, 15f);
-            c.getWaterBar().draw(this.game, Game.waterColor, configX * 0.4f, configY - count * 30f - 25f, 1f, 15f);
-            count++;
+            if(c.isAlive()) {
+                c.getHealthBar().draw(this.game, Game.healthColor, configX * 0.2f, configY - count * 30f - 25f, 1f, 15f);
+                c.getFoodBar().draw(this.game, Game.foodColor, configX * 0.3f, configY - count * 30f - 25f, 1f, 15f);
+                c.getWaterBar().draw(this.game, Game.waterColor, configX * 0.4f, configY - count * 30f - 25f, 1f, 15f);
+                count++;
+            }
         }
         count = 0;
         this.game.getSpriteBatch().begin();
         for(Character c : this.game.getConvoy().getCharacters()) {
-            this.game.getFont().getData().setScale(1f, 1f);
-            this.game.getFont().draw(this.game.getSpriteBatch(), c.getName1() + " " + c.getName2(), configX * 0.05f, configY - count * 30f - 10f);
-            count++;
+            if(c.isAlive()) {
+                this.game.getFont().getData().setScale(1f, 1f);
+                this.game.getFont().draw(this.game.getSpriteBatch(), c.getName1() + " " + c.getName2(), configX * 0.05f, configY - count * 30f - 10f);
+                count++;
+            }
+
         }
         this.game.getSpriteBatch().end();
 
@@ -156,6 +174,10 @@ public class TransitionScreen implements Screen {
 
         c.getFoodBar().deltaUpdate((float) -value /5);
         c.getWaterBar().deltaUpdate(-1f * value/3);
+    }
+
+    private void applyTraitEffects() {
+
     }
 
     private void drawTransitionBar(float x, float y) {

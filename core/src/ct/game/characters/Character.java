@@ -19,12 +19,15 @@ public class Character {
     private StatusBar healthBar;
     private ArrayList<Trait> traits;
 
+    private boolean alive;
+
     public Character(String id, String name1, String name2, ArrayList<Trait> traits) {
         this.id = id;
         idCounter++;
         this.name1 = name1;
         this.name2 = name2;
         this.traits = traits;
+        this.alive = true;
 
         this.foodBar = new StatusBar(100, "food");
         this.waterBar = new StatusBar( 100, "water");
@@ -55,20 +58,24 @@ public class Character {
         return waterBar;
     }
 
+    public ArrayList<Trait> getTraits() {
+        return traits;
+    }
+
+    public boolean isAlive() {
+        return alive;
+    }
+
     public boolean equals(Character character) {
         return Objects.equals(character.getId(), this.getId());
     }
 
-    public void die(Game game) {
-        ArrayList<Character> newCharList = new ArrayList<>();
+    public void die() {
+        this.alive = false;
+    }
 
-        for(Character c : game.getConvoy().getCharacters()) {
-            if(!c.equals(this)) {
-                newCharList.add(c);
-            }
-        }
+    public void addTrait(Game game) {
 
-        game.getConvoy().setCharacters(newCharList);
     }
 
 }

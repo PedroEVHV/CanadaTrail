@@ -5,14 +5,16 @@ public class Trait {
     private String id;
     private String name;
     private String description;
+    private String effectCommand;
 
     private float duration;
 
-    public Trait(String id, String name, String description, String duration) {
+    public Trait(String id, String name, String description, String duration, String effectCommand) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.duration = (float) Integer.parseInt(duration);
+        this.effectCommand = effectCommand;
     }
 
     //Getters
@@ -30,5 +32,9 @@ public class Trait {
 
     public float getDuration() {
         return duration;
+    }
+
+    public String getEffectCommand() {
+        return effectCommand;
     }
 }

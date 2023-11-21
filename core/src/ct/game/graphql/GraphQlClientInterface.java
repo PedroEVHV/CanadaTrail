@@ -168,7 +168,7 @@ public interface GraphQlClientInterface {
             for(int i = 0; i < itemsArray.length(); i++) {
                 JSONObject tempObj = (JSONObject) itemsArray.get(i);
 
-                output.add(new Trait((String) tempObj.get("id"), (String) tempObj.get("name"), (String) tempObj.get("description"), (String) tempObj.get("duration")));
+                output.add(new Trait((String) tempObj.get("id"), (String) tempObj.get("name"), (String) tempObj.get("description"), (String) tempObj.get("duration"), (String) tempObj.get("effect")));
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());

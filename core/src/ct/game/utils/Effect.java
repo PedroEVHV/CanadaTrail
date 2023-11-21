@@ -44,6 +44,13 @@ public abstract class Effect {
                 for(int j = 0; j < charVars.length; j++) {
                     String[] var = charVars[j].split("!");
                     int id = Integer.parseInt(var[0]);
+                    try{
+                        if(id > game.getConvoy().getCharacters().size()) {
+                            throw new ClientException("Targeted id is out of bounds", game);
+                        }
+                    } catch(ClientException e) {
+                        e.setErrorScreen();
+                    }
                     String affectType = var[1];
 
                     if(Objects.equals(affectType, "stat")) {
@@ -60,12 +67,17 @@ public abstract class Effect {
 
 
                     } else if(Objects.equals(affectType, "trait")) {
-                        String action = var[2];
-                        if(Objects.equals(action, "add")) {
-                            game.getConvoy().getCharacters().get(id).addTrait(game, var[3]);
-                        } else if(Objects.equals(action, "remove")) {
-                            game.getConvoy().getCharacters().get(id).addTrait(game, var[3]);
+                        try{
+                            String action = var[2];
+                            if(Objects.equals(action, "add")) {
+                                game.getConvoy().getCharacters().get(id).addTrait(game, var[3]);
+                            } else if(Objects.equals(action, "remove")) {
+                                game.getConvoy().getCharacters().get(id).addTrait(game, var[3]);
+                            }
+                        } catch(ClientException e) {
+                            e.setErrorScreen();
                         }
+
                     }
                 }
 

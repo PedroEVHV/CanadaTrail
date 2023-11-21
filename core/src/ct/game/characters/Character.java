@@ -2,6 +2,7 @@ package ct.game.characters;
 
 
 import ct.game.Game;
+import ct.game.exceptions.ClientException;
 import ct.game.utils.status.StatusBar;
 import org.checkerframework.checker.units.qual.A;
 
@@ -74,24 +75,28 @@ public class Character {
         this.alive = false;
     }
 
-    public void addTrait(Game game, String id) {
+    public void addTrait(Game game, String id) throws ClientException {
         for(Trait trait : game.getGameTraits()) {
             if(Objects.equals(trait.getId(), id)) {
                 if(this.traits.contains(trait) && trait.getDuration() > -1) {
                     this.traits.get(this.traits.indexOf(trait)).updateDuration(trait.getDuration());
+                    return;
                 } else if(!this.traits.contains(trait)){
                     this.traits.add(trait);
+                    return;
                 }
             }
         }
+        throw new ClientException("Unknown Trait ID added to Character object", game);
     }
 
-    public void removeTrait(Game game, String id) {
+    public void removeTrait(Game game, String id) throws ClientException {
         for(Trait trait : game.getGameTraits()) {
             if(Objects.equals(trait.getId(), id) && this.traits.contains(trait)) {
                 this.traits.remove(trait);
             }
         }
+        throw new ClientException("Unknown Trait ID removed from Character object", game);
     }
 
 }

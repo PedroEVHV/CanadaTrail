@@ -37,6 +37,8 @@ public class IntroductionScreen implements Screen {
 
         game.getSpriteBatch().begin();
         this.drawContext(configX, configY);
+        drawGameRules(configX, configY);
+        drawMap(configX, configY);
         game.getSpriteBatch().end();
 
         if (Gdx.input.isTouched() && Gdx.input.getY() < this.game.getScreenConfiguration().getY()/3) {
@@ -90,16 +92,16 @@ public class IntroductionScreen implements Screen {
                 "Good luck, and may the odds be ever in your favor !";
 
         this.game.getFont().getData().setScale(2.0f, 2.0f);
-        this.game.getFont().draw(this.game.getSpriteBatch(), "Rules :", configX*0.5f + configX*0.05f, configY - configY*0.05f);
+        this.game.getFont().draw(this.game.getSpriteBatch(), "RULES :", configX*0.5f + configX*0.05f, configY - configY*0.05f);
         this.game.getFont().getData().setScale(1.3f, 1.3f);
-        this.game.getFont().draw(this.game.getSpriteBatch(), s, configX*0.05f, configY - configY*0.1f, configX*0.4f, 1, true);
+        this.game.getFont().draw(this.game.getSpriteBatch(), s, configX*0.55f, configY - configY*0.1f, configX*0.4f, 1, true);
         this.game.getFont().getData().setScale(1.0f, 1.0f);
     }
 
-    private void drawMap() {
+    private void drawMap(float configX, float configY) {
         try {
             Texture background = new Texture(Gdx.files.internal(this.game.getSetup().getAssets().get("map")));
-            this.game.getSpriteBatch().draw(background, 0, 0, this.game.getScreenConfiguration().getX(), this.game.getScreenConfiguration().getY());
+            this.game.getSpriteBatch().draw(background, configX*0.05f, configY*0.1f, configX*0.45f, configY*0.45f);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }

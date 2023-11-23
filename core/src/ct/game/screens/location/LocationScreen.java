@@ -10,7 +10,7 @@ import ct.game.Game;
 import ct.game.geographical.Location;
 import ct.game.screens.ScreenConfiguration;
 import ct.game.screens.end.EndScreen;
-import ct.game.screens.inventory.InventoryScreen;
+import ct.game.screens.assignment.AssignmentScreen;
 
 public class LocationScreen implements Screen {
     private Game game;
@@ -66,7 +66,7 @@ public class LocationScreen implements Screen {
             if(this.game.getMap().getTrailPosition() >= this.game.getMap().getTrail().getLocations().size()-1) {
                 this.game.setScreen(new EndScreen(this.game, this.game.getScreenConfiguration(), true));
             } else {
-                game.setScreen(new InventoryScreen(this.game, this.game.getScreenConfiguration()));
+                game.setScreen(new AssignmentScreen(this.game, this.game.getScreenConfiguration()));
             }
 
             dispose();

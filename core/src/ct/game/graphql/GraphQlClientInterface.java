@@ -137,8 +137,7 @@ public interface GraphQlClientInterface {
             JSONArray itemsArray = (JSONArray) json.get("items");
             for(int i = 0; i < itemsArray.length(); i++) {
                 JSONObject tempObj = (JSONObject) itemsArray.get(i);
-
-                output.add(new Item((String) tempObj.get("id"), (String) tempObj.get("name"), (String) tempObj.get("description"), (String) tempObj.get("effectCode")));
+                output.add(new Item((String) tempObj.get("id"), (String) tempObj.get("name"), (String) tempObj.get("description"), (String) tempObj.get("effectCode"), (String) tempObj.get("spriteCode")));
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -165,11 +164,13 @@ public interface GraphQlClientInterface {
             String parsedResponse = new String(responseString);
             JSONObject json = (JSONObject) new JSONObject(parsedResponse).get("data");
             JSONArray itemsArray = (JSONArray) json.get("traits");
+            System.out.println("trait1");
             for(int i = 0; i < itemsArray.length(); i++) {
                 JSONObject tempObj = (JSONObject) itemsArray.get(i);
 
-                output.add(new Trait((String) tempObj.get("id"), (String) tempObj.get("name"), (String) tempObj.get("description"), (String) tempObj.get("duration"), (String) tempObj.get("effect")));
+                output.add(new Trait((String) tempObj.get("id"), (String) tempObj.get("name"), (String) tempObj.get("description"), (Integer) tempObj.get("duration"), (String) tempObj.get("effectCommand")));
             }
+            System.out.println("trait1");
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return output;
@@ -198,7 +199,7 @@ public interface GraphQlClientInterface {
             }
             String parsedResponse = new String(responseString);
             JSONObject json = (JSONObject) new JSONObject(parsedResponse).get("data");
-            System.out.println(json);
+
             JSONObject setupJson = json.getJSONObject("setup");
             //JSONObject tempObj = setupJson.getJSONObject("travelers");
             trav = setupJson.getInt("travelers");

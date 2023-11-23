@@ -8,11 +8,14 @@ public class Item {
 
     private String itemClass;
 
-    public Item(String id, String name, String description, String itemClass) {
+    private String spriteCode;
+
+    public Item(String id, String name, String description, String itemClass, String spriteCode) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.itemClass = itemClass;
+        this.spriteCode = spriteCode;
     }
 
     //getters
@@ -33,6 +36,9 @@ public class Item {
         return itemClass;
     }
 
+    public String getSpriteCode() {
+        return spriteCode;
+    }
     //Methods
 
 

@@ -9,11 +9,11 @@ public class Trait {
 
     private float duration;
 
-    public Trait(String id, String name, String description, String duration, String effectCommand) {
+    public Trait(String id, String name, String description, int duration, String effectCommand) {
         this.id = id;
         this.name = name;
         this.description = description;
-        this.duration = (float) Integer.parseInt(duration);
+        this.duration = duration;
         this.effectCommand = effectCommand;
     }
 

@@ -35,8 +35,6 @@ public abstract class Effect {
                         throw new ClientException("Unknown item ID used in inventory update", game);
                     }
 
-                    //add/remove items
-
                 }
             } else if(Objects.equals(type, "c")) {
                 String[] charVars = content.split("@");
@@ -72,7 +70,7 @@ public abstract class Effect {
                             if(Objects.equals(action, "add")) {
                                 game.getConvoy().getCharacters().get(id).addTrait(game, var[3]);
                             } else if(Objects.equals(action, "remove")) {
-                                game.getConvoy().getCharacters().get(id).addTrait(game, var[3]);
+                                game.getConvoy().getCharacters().get(id).removeTrait(game, var[3]);
                             }
                         } catch(ClientException e) {
                             e.setErrorScreen();
@@ -80,8 +78,6 @@ public abstract class Effect {
 
                     }
                 }
-
-                //char affects
             }
         }
     }

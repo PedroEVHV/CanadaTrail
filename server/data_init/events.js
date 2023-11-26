@@ -10,11 +10,13 @@ export function eventsInit() {
                     "number" : "1",
                     "text" : "Let's grab our gear...",
                     "effectCode" : "i#ITEMID_item:1!3@ITEMID_item:4!-2",
+                    "description" : "food +3, ammunition -2"
                 },
                 {
                     "number" : "2",
                     "text" : "No we don't have time for this.",
                     "effectCode" : "",
+                    "description" : ""
                 }
             ]
         }, 
@@ -22,12 +24,27 @@ export function eventsInit() {
             "id" : "EVENTID_event:1",
             "name" : "Lucky findings on the road !",
             "description" : "You find some abandoned supplies alongside the road.",
-            "effectCode" : "1",
+            "eventCode" : "1",
             "options" : [
                 {
                     "number" : "1",
                     "text" : "It's free real estate...",
                     "effect" : "i#ITEMID_item:1!1",
+                    "description" : "food +1"
+                }
+            ]
+        },
+        {
+            "id" : "EVENTID_event:2",
+            "name" : "target:0 cut himself/herself with a knife.",
+            "description" : "While playing with a knife target:0 got hit with consequences.",
+            "eventCode" : "1",
+            "options" : [
+                {
+                    "number" : "1",
+                    "text" : "Skill issue...",
+                    "effect" : "c#0!stat!health!-15",
+                    "description" : "target:0 loses 15 health"
                 }
             ]
         }

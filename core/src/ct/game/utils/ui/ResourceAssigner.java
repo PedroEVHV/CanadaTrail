@@ -1,4 +1,4 @@
-package ct.game.utils.interact;
+package ct.game.utils.ui;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;

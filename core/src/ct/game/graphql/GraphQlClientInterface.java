@@ -164,13 +164,11 @@ public interface GraphQlClientInterface {
             String parsedResponse = new String(responseString);
             JSONObject json = (JSONObject) new JSONObject(parsedResponse).get("data");
             JSONArray itemsArray = (JSONArray) json.get("traits");
-            System.out.println("trait1");
             for(int i = 0; i < itemsArray.length(); i++) {
                 JSONObject tempObj = (JSONObject) itemsArray.get(i);
 
                 output.add(new Trait((String) tempObj.get("id"), (String) tempObj.get("name"), (String) tempObj.get("description"), (Integer) tempObj.get("duration"), (String) tempObj.get("effectCommand")));
             }
-            System.out.println("trait1");
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return output;
@@ -258,7 +256,7 @@ public interface GraphQlClientInterface {
             for(int i = 0; i < optionsObject.length(); i++) {
                 JSONObject obj = (JSONObject) optionsObject.get(i);
 
-                options.add(new EventOption((Integer) obj.get("number"), (String) obj.get("text"), (String) obj.get("effectCode")));
+                options.add(new EventOption((Integer) obj.get("number"), (String) obj.get("text"), (String) obj.get("effectCode"), (String) obj.get("description")));
 
             }
 
@@ -266,6 +264,6 @@ public interface GraphQlClientInterface {
             System.out.println(e.getMessage());
             return null;
         }
-        return new Event(id, name, description, "", options, "");
+        return new Event(id, name, description, options, "");
     }
 }

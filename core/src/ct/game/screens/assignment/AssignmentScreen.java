@@ -10,9 +10,11 @@ import ct.game.Game;
 import ct.game.characters.Character;
 import ct.game.inventories.Item;
 import ct.game.screens.ScreenConfiguration;
+import ct.game.screens.inventory.InventoryScreen;
 import ct.game.screens.transition.TransitionScreen;
 import ct.game.utils.Resource;
-import ct.game.utils.interact.ResourceAssigner;
+import ct.game.utils.ui.Button;
+import ct.game.utils.ui.ResourceAssigner;
 
 import java.util.HashMap;
 import java.util.Objects;
@@ -24,7 +26,7 @@ public class AssignmentScreen implements Screen {
 
     //Next round confirmation button
     private Rectangle confirmButtonBox;
-    private final String confirmButton = "Continue Trip !";
+    private final String confirmButtonText = "Continue Trip !";
     private final String inventoryTitleText = ">> Assign resources : ";
 
     //Textures
@@ -37,6 +39,8 @@ public class AssignmentScreen implements Screen {
     private HashMap<Integer, ResourceAssigner> assignButtons;
 
     private boolean assignmentValidity;
+    private Button openInventory;
+    private Button nextButton;
 
 
 
@@ -73,12 +77,8 @@ public class AssignmentScreen implements Screen {
 
             this.assignButtons.put( i * 10 + 2,healthAssigner);
         }
-
-
-
-
-
-        this.confirmButtonBox = new Rectangle(game.getScreenConfiguration().getX()*0.9f, 40.f, 100f, 50f);
+        this.openInventory = new Button(new Texture(Gdx.files.internal("util_sprites/wagon-image.png")), new Rectangle(configX*0.01f, configY - configY*0.1f, 50f, 50f));
+        this.nextButton = new Button(this.confirmButtonText, new Rectangle(game.getScreenConfiguration().getX()*0.9f, 40.f, 100f, 50f));
     }
 
     @Override
@@ -101,7 +101,6 @@ public class AssignmentScreen implements Screen {
 
         //Draw title
         this.game.getFont().draw(this.game.getSpriteBatch(), this.inventoryTitleText, configX*0.01f, configY*0.95f);
-        this.game.getSpriteBatch().draw(inventoryTexture, configX*0.90f, configY*0.99f);
 
 
         //Draw character info
@@ -116,7 +115,9 @@ public class AssignmentScreen implements Screen {
             count++;
         }
 
-        game.getFont().draw(game.getSpriteBatch(),confirmButton, configX*0.76f, 40.f);
+        //game.getFont().draw(game.getSpriteBatch(),confirmButtonText, configX*0.76f, 40.f);
+        this.openInventory.draw(this.game);
+        this.nextButton.draw(this.game);
         this.game.getSpriteBatch().end();
         count = 0;
         for(Character c : this.game.getConvoy().getCharacters()) {
@@ -135,6 +136,10 @@ public class AssignmentScreen implements Screen {
 
                 this.game.setScreen(new TransitionScreen(this.game, this.game.getScreenConfiguration(), 0.0f));
                 dispose();
+            } else if(this.openInventory.isClicked(Gdx.input)) {
+                this.game.setScreen(new InventoryScreen(this.game, this.game.getScreenConfiguration(), this));
+                dispose();
+
             } else {
                 checkCorrectAssignment(Resource.generateFoodItem(this.game), 0);
                 checkCorrectAssignment(Resource.generateDrinkItem(this.game), 1);

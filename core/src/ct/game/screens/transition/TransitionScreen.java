@@ -41,6 +41,7 @@ public class TransitionScreen implements Screen {
             "      effectCode\n" +
             "      number\n" +
             "      text\n" +
+            "      description\n" +
             "    }\n" +
             "    title\n" +
             "  }\n" +
@@ -84,7 +85,7 @@ public class TransitionScreen implements Screen {
                 Random random = new Random();
                 float randomFloat = random.nextFloat();
 
-                if(randomFloat < 0.2) {
+                if(randomFloat < 0.8) {
                     int eventNumber = random.nextInt(0, this.game.getSetup().getEventCap());
                     Event e = GraphQlClientInterface.getEvent(eventQuery, Game.getUrl(), String.valueOf(eventNumber));
                     this.game.setScreen(new EventScreen(this.game, this.game.getScreenConfiguration(), e, this));

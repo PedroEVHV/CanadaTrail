@@ -15,11 +15,10 @@ public class Event {
 
     private String spriteCode;
 
-    public Event(String id, String name, String description, String effectCode, ArrayList<EventOption> options, String spriteCode) {
+    public Event(String id, String name, String description, ArrayList<EventOption> options, String spriteCode) {
         this.id = id;
         this.name = name;
         this.description = description;
-        this.effectCode = effectCode;
         this.options = options;
         this.spriteCode = spriteCode;
     }
@@ -43,10 +42,6 @@ public class Event {
 
     public String getName() {
         return name;
-    }
-
-    public String getEffectCode() {
-        return effectCode;
     }
 
     public ArrayList<EventOption> getOptions() {

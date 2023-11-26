@@ -4,6 +4,7 @@ type EventOption {
     number:Int
     text:String
     effectCode:String
+    description:String
 }
 
 

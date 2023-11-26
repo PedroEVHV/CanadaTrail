@@ -243,9 +243,9 @@ public interface GraphQlClientInterface {
             }
             String parsedResponse = new String(responseString);
             JSONObject json = (JSONObject) new JSONObject(parsedResponse).get("data");
-            System.out.println(json);
+            //System.out.println(json);
             JSONObject eventJson = (JSONObject) json.get("event");
-            System.out.println(eventJson);
+            //System.out.println(eventJson);
             id = String.valueOf(eventJson.get("id"));
 
             name = String.valueOf(eventJson.get("title"));

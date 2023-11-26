@@ -39,7 +39,7 @@ public class Button {
         if(this.text == null) {
             game.getSpriteBatch().draw(this.texture, this.box.x, game.getScreenConfiguration().getY() - this.box.y - 50f, this.box.width, this.box.height);
         } else {
-            game.getFont().draw(game.getSpriteBatch(), this.text,  this.box.x - 150f, this.box.y);
+            game.getFont().draw(game.getSpriteBatch(), this.text,  this.box.x, game.getScreenConfiguration().getY() - this.box.y);
         }
 
     }

@@ -3,11 +3,15 @@ package ct.game.utils;
 import ct.game.Game;
 import ct.game.exceptions.ClientException;
 import ct.game.inventories.Item;
+import ct.game.screens.event.EventScreen;
 
 import java.util.Objects;
 
 public abstract class Effect {
-    public static void applyEffect(Game game, String command) throws ClientException {
+    public static boolean applyEffect(Game game, String command, EventScreen screen) throws ClientException {
+        if(command == "" || command == null) {
+            return true;
+        }
         //Code parsing
         String[] commands = command.split("=");
         for(int i = 0; i < commands.length; i++) {
@@ -30,7 +34,10 @@ public abstract class Effect {
                     }
 
                     if(item != null) {
-                        game.getConvoy().getInventory().update(item, amount);
+                        if(!game.getConvoy().getInventory().update(item, amount)) {
+                            screen.setErrorText("You do not have enough of this item : " + item.getName());
+                            return false;
+                        }
                     } else {
                         throw new ClientException("Unknown item ID used in inventory update", game);
                     }
@@ -41,6 +48,7 @@ public abstract class Effect {
 
                 for(int j = 0; j < charVars.length; j++) {
                     String[] var = charVars[j].split("!");
+
                     int id = Integer.parseInt(var[0]);
                     try{
                         if(id > game.getConvoy().getCharacters().size()) {
@@ -80,6 +88,8 @@ public abstract class Effect {
                 }
             }
         }
+
+        return true;
     }
 }
 

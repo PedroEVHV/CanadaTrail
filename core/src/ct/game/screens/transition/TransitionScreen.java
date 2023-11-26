@@ -98,12 +98,13 @@ public class TransitionScreen implements Screen {
                     if(c.isAlive()) {
                         for(Trait t : c.getTraits()) {
                             try {
-                                Effect.applyEffect(game, t.getEffectCommand());
+                                Effect.applyEffect(game, t.getEffectCommand(), null);
                             } catch (ClientException e) {
                                 e.setErrorScreen();
                             }
                         }
                         this.updateVitals(c, Game.baseMultiplier );
+                        this.game.applyTraitEffects();
                     }
 
                 }

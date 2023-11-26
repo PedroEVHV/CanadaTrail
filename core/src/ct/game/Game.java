@@ -9,6 +9,7 @@ import ct.game.characters.Character;
 import ct.game.characters.Trait;
 import ct.game.convoys.Convoy;
 import ct.game.events.Event;
+import ct.game.exceptions.ClientException;
 import ct.game.exceptions.GraphQLException;
 import ct.game.geographical.Map;
 import ct.game.geographical.Trail;
@@ -16,6 +17,7 @@ import ct.game.graphql.GraphQlClientInterface;
 import ct.game.inventories.Item;
 import ct.game.screens.ScreenConfiguration;
 import ct.game.screens.main_menu.MainMenuScreen;
+import ct.game.utils.Effect;
 import ct.game.utils.Setup;
 
 import java.util.ArrayList;
@@ -227,6 +229,21 @@ public class Game extends com.badlogic.gdx.Game implements GraphQlClientInterfac
 		}
 		for(Character c : deadCharacters) {
 			c.die();
+		}
+	}
+
+	public void applyTraitEffects() {
+		for(int i = 0; i < this.convoy.getCharacters().size(); i++) {
+			for(Trait t : this.convoy.getCharacters().get(i).getTraits()) {
+				String newCommand = t.getEffectCommand().replace("#x!", "#" + i + "!").replace("@x!", "@" + i + "!");
+				try {
+					Effect.applyEffect(this, newCommand, null);
+					t.updateDuration(-1);
+				} catch(ClientException e) {
+					e.setErrorScreen();
+				}
+
+			}
 		}
 	}
 }

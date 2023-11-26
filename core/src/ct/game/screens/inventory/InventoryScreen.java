@@ -143,6 +143,8 @@ public class InventoryScreen implements Screen {
     private void changePage(int delta) {
         if(this.index + delta < 0) {
             this.index = 0;
+        } else if(this.index + delta > this.maxIndex){
+            this.index = this.maxIndex;
         } else {
             this.index += delta;
         }

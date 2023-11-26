@@ -6,10 +6,21 @@ public class Inventory extends HashMap<Item, Integer> implements InventoryInterf
 
 
     @Override
-    public void update(Item item, int amount) {
-        if(this.get(item) + amount > 0) {
-            this.replace(item, this.get(item) + amount);
+    public boolean update(Item item, int amount) {
+        System.out.println("update : " + item.getName() + " by " + amount);
+        try{
+            if(this.get(item) + amount < 0) {
+                System.out.println("no item");
+                throw new Exception("You don't have enough of this item");
+            } else {
+                this.replace(item, this.get(item) + amount);
+                return true;
+            }
+        } catch(Exception e) {
+            System.out.println("false");
+            return false;
         }
+
     }
 
     @Override

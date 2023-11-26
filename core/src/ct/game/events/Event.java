@@ -2,6 +2,7 @@ package ct.game.events;
 
 import ct.game.Game;
 import ct.game.exceptions.ClientException;
+import ct.game.screens.event.EventScreen;
 import ct.game.utils.Effect;
 
 import java.util.ArrayList;
@@ -49,7 +50,7 @@ public class Event {
     }
 
 
-    public void applyOption(EventOption option, Game game) throws ClientException {
-        Effect.applyEffect(game, option.getEffectCode());
+    public void applyOption(EventOption option, Game game, EventScreen screen) throws ClientException {
+        Effect.applyEffect(game, option.getEffectCode(), screen);
     }
 }

@@ -9,9 +9,11 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import ct.game.Game;
 import ct.game.events.Event;
 import ct.game.events.EventOption;
+import ct.game.exceptions.ClientException;
 import ct.game.screens.ScreenConfiguration;
 import ct.game.screens.inventory.InventoryScreen;
 import ct.game.screens.transition.TransitionScreen;
+import ct.game.utils.Effect;
 import ct.game.utils.ui.Button;
 
 public class EventScreen implements Screen {
@@ -26,6 +28,9 @@ public class EventScreen implements Screen {
     public EventScreen(Game game, ScreenConfiguration config, Event event, TransitionScreen screen) {
         this.game = game;
         this.event = event;
+        for(EventOption option : this.event.getOptions()) {
+            option.updateDescriptionForCharacterEvent(this.game);
+        }
         this.currentTransition = screen;
         this.camera = new OrthographicCamera();
         this.camera.setToOrtho(config.getyDown(), config.getX(), config.getY());
@@ -33,7 +38,9 @@ public class EventScreen implements Screen {
         this.errorText = "";
     }
 
-
+    public void setErrorText(String errorText) {
+        this.errorText = errorText;
+    }
 
     @Override
     public void show() {
@@ -56,9 +63,9 @@ public class EventScreen implements Screen {
         this.game.getFont().draw(this.game.getSpriteBatch(), this.event.getName(), configX * 0.25f, configY * 0.9f);
         this.game.getFont().getData().setScale(1.5f,1.5f);
         this.game.getFont().draw(this.game.getSpriteBatch(), this.event.getDescription(), configX*0.1f, configY * 0.8f, configX*0.8f, 1, true);
-        //this.game.getFont().getData().setScale(1.1f,1.1f);
         this.drawOptions(configX, configY);
         this.game.getFont().getData().setScale(1f,1f);
+        this.game.getFont().draw(this.game.getSpriteBatch(), this.errorText, configX*0.1f, configY*0.2f);
         this.openInventory.draw(this.game);
         this.game.getSpriteBatch().end();
 
@@ -66,6 +73,18 @@ public class EventScreen implements Screen {
         if(Gdx.input.isTouched()) {
             if(this.openInventory.isClicked(Gdx.input)) {
                 this.game.setScreen(new InventoryScreen(this.game, this.game.getScreenConfiguration(), this));
+            }
+            for(EventOption option : this.event.getOptions()) {
+                if(option.getButton().isClicked(Gdx.input)) {
+                    try {
+                        boolean e = Effect.applyEffect(this.game, option.getEffectCode(), this);
+                        if(e) {
+                            this.game.setScreen(this.currentTransition);
+                        }
+                    } catch (ClientException ex) {
+                        ex.setErrorScreen();
+                    }
+                }
             }
         }
     }
@@ -102,7 +121,7 @@ public class EventScreen implements Screen {
             this.event.getOptions().get(0).generateButton(">> " + this.event.getOptions().get(0).getText(), new Rectangle(configX * 0.35f, configY*0.5f, configX*0.3f, 50f));
         } else if(amount == 2) {
             this.event.getOptions().get(0).generateButton(">> " + this.event.getOptions().get(0).getText(), new Rectangle(configX * 0.2f, configY*0.5f, configX*0.3f, 50f));
-            this.event.getOptions().get(1).generateButton(">> " + this.event.getOptions().get(1).getText(), new Rectangle(configX * 0.7f, configY*0.5f, configX*0.3f, 50f));
+            this.event.getOptions().get(1).generateButton(">> " + this.event.getOptions().get(1).getText(), new Rectangle(configX * 0.6f, configY*0.5f, configX*0.3f, 50f));
         } else if(amount == 4) {
             this.event.getOptions().get(0).generateButton(">> " + this.event.getOptions().get(0).getText(), new Rectangle(configX * 0.2f, configY*0.5f, configX*0.3f, 50f));
             this.event.getOptions().get(1).generateButton(">> " + this.event.getOptions().get(1).getText(), new Rectangle(configX * 0.7f, configY*0.5f, configX*0.3f, 50f));

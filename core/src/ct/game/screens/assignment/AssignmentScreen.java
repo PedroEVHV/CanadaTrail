@@ -78,7 +78,7 @@ public class AssignmentScreen implements Screen {
             this.assignButtons.put( i * 10 + 2,healthAssigner);
         }
         this.openInventory = new Button(new Texture(Gdx.files.internal("util_sprites/wagon-image.png")), new Rectangle(configX*0.01f, configY - configY*0.1f, 50f, 50f));
-        this.nextButton = new Button(this.confirmButtonText, new Rectangle(game.getScreenConfiguration().getX()*0.9f, 40.f, 100f, 50f));
+        this.nextButton = new Button(this.confirmButtonText, new Rectangle(configX*0.75f, configY*0.9f, configX*0.2f, 50f));
     }
 
     @Override
@@ -130,8 +130,8 @@ public class AssignmentScreen implements Screen {
 
 
         if (Gdx.input.isTouched()) {
-            Rectangle nextButton = new Rectangle(configX*0.76f, configY*0.9f, configX*0.2f, configY*0.1f);
-            if(nextButton.contains(Gdx.input.getX(), Gdx.input.getY()) && assignmentValidity) {
+
+            if(nextButton.isClicked(Gdx.input) && assignmentValidity) {
                 setupVitals();
 
                 this.game.setScreen(new TransitionScreen(this.game, this.game.getScreenConfiguration(), 0.0f));

@@ -22,6 +22,8 @@ public class Event {
         this.description = description;
         this.options = options;
         this.spriteCode = spriteCode;
+
+
     }
 
     /*

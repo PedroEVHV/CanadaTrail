@@ -42,8 +42,11 @@ public class EventOption {
     }
 
     public void updateDescriptionForCharacterEvent(Game game) {
+        System.out.println(this.description);
         for(int i = 0; i < game.getConvoy().getCharacters().size(); i++) {
+
             if(this.description.contains("target:" + i)) {
+                System.out.println("found !");
                 this.description = this.description.replace("target:" + i, game.getConvoy().getCharacters().get(i).getName1() + game.getConvoy().getCharacters().get(i).getName2());
             }
         }

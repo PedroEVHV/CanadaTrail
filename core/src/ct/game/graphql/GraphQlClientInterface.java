@@ -217,6 +217,12 @@ public interface GraphQlClientInterface {
             assets.put("main_menu_bg", (String) tempObj.get("main_menu_bg"));
             assets.put("map", (String) tempObj.get("map"));
 
+            JSONArray itemArray = setupJson.getJSONArray("items");
+            for(int i = 0; i < itemArray.length(); i++) {
+                JSONObject object = (JSONObject) itemArray.get(i);
+                inv.put((String) object.get("item"), (Integer) object.get("amount"));
+            }
+
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return null;
@@ -243,7 +249,7 @@ public interface GraphQlClientInterface {
             }
             String parsedResponse = new String(responseString);
             JSONObject json = (JSONObject) new JSONObject(parsedResponse).get("data");
-            //System.out.println(json);
+            System.out.println(json);
             JSONObject eventJson = (JSONObject) json.get("event");
             //System.out.println(eventJson);
             id = String.valueOf(eventJson.get("id"));

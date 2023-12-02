@@ -78,6 +78,7 @@ type Setup {
     water: JSON
     medical: JSON
     assets: JSON
+    items: JSON
 
 }
 

@@ -1,0 +1,361 @@
+@startuml
+
+!theme plain
+top to bottom direction
+skinparam linetype ortho
+
+class AssignmentScreen {
+  + render(float): void
+  + resize(int, int): void
+  - checkCorrectAssignment(Item, int): void
+  + show(): void
+  - updateInventory(int, int, int): void
+  + dispose(): void
+  + resume(): void
+  + hide(): void
+  - setupVitals(): void
+  + pause(): void
+  - drawInventory(): void
+}
+class Button {
+  + draw(Game): void
+  + isClicked(Input): boolean
+   box: Rectangle
+   texture: Texture
+}
+class Character {
+  + removeTrait(Game, String): void
+  + equals(Character): boolean
+  + addTrait(Game, String): void
+  + die(): void
+   traits: ArrayList<Trait>
+   name1: String
+   name2: String
+   waterBar: StatusBar
+   healthBar: StatusBar
+   id: String
+   alive: boolean
+   foodBar: StatusBar
+}
+class ClientException {
+  + setErrorScreen(): void
+}
+class ClientExceptionScreen
+class CloudSaveManager
+class Convoy {
+  + setStartingInventory(Convoy, Game): void
+   name: String
+   characters: ArrayList<Character>
+   id: String
+   inventory: Inventory
+}
+class Effect {
+  + applyEffect(Game, String, EventScreen): boolean
+}
+class EndScreen {
+  - drawFailure(float, float): void
+  + resume(): void
+  + hide(): void
+  + resize(int, int): void
+  + render(float): void
+  - drawSuccess(float, float): void
+  + dispose(): void
+  + show(): void
+  + pause(): void
+}
+class ErrorScreen {
+  + resume(): void
+  + show(): void
+  + pause(): void
+  + hide(): void
+  + render(float): void
+  + dispose(): void
+  + resize(int, int): void
+}
+class Event {
+  + applyOption(EventOption, Game, EventScreen): void
+   name: String
+   description: String
+   options: ArrayList<EventOption>
+   id: String
+}
+class EventOption {
+  + draw(Game): void
+  + updateDescriptionForCharacterEvent(Game): void
+  + generateButton(String, Rectangle): void
+   description: String
+   text: String
+   button: Button
+   effectCode: String
+   number: int
+}
+class EventScreen {
+  + resize(int, int): void
+  + render(float): void
+  + pause(): void
+  + hide(): void
+  + resume(): void
+  + show(): void
+  + dispose(): void
+  - drawOptions(float, float): void
+   errorText: String
+}
+class Game {
+  + applyTraitEffects(): void
+  + create(): void
+  + checkForDeaths(): void
+  + dispose(): void
+  + render(): void
+   screenConfiguration: ScreenConfiguration
+   url: String
+   setup: Setup
+   spriteBatch: SpriteBatch
+   map: Map
+   gameItems: ArrayList<Item>
+   convoy: Convoy
+   font: BitmapFont
+   gameTraits: ArrayList<Trait>
+}
+interface GameExceptionInterface << interface >> {
+  + setErrorScreen(): void
+}
+class GraphQLErrorScreen {
+  + render(float): void
+}
+class GraphQLException {
+  + setErrorScreen(): void
+   message: String
+}
+interface GraphQlClientInterface << interface >> {
+  + listTraits(String, String): ArrayList<Trait>
+  + loadSetup(String, String): Setup?
+  + request(String, String, HashMap<String, String>): HttpResponse
+  + listCharacters(String, String): ArrayList<Character>
+  + listItems(String, String): ArrayList<Item>
+  + listLocations(String, String): ArrayList<Location>
+  + getEvent(String, String, String): Event?
+}
+class IntroductionScreen {
+  + hide(): void
+  + dispose(): void
+  + show(): void
+  + render(float): void
+  + pause(): void
+  + resume(): void
+  - drawContext(float, float): void
+  + resize(int, int): void
+  - drawGameRules(float, float): void
+  - drawMap(float, float): void
+}
+class Inventory {
+  + update(Item, int): boolean
+  + toString(): String
+}
+interface InventoryInterface << interface >> {
+  + update(Item, int): boolean
+}
+class InventoryScreen {
+  + dispose(): void
+  - changePage(int): void
+  + resize(int, int): void
+  + pause(): void
+  + show(): void
+  + resume(): void
+  + hide(): void
+  - drawItems(float, float): void
+  + render(float): void
+}
+class Item {
+   name: String
+   description: String
+   spriteCode: String
+   itemClass: String
+   id: String
+}
+class ItemDisplay {
+  + draw(Game, Texture, float, float): void
+   item: Item
+   gridPosX: int
+   page: int
+   gridPosY: int
+   amount: int
+}
+interface LoadSaveInterface << interface >>
+class LocalSaveManager
+class Location {
+   name: String
+   description: String
+   spriteCode: String
+   eventCodes: ArrayList<Integer>
+   id: String
+}
+class LocationScreen {
+  + render(float): void
+  + hide(): void
+  + resume(): void
+  + show(): void
+  + resize(int, int): void
+  + pause(): void
+  + dispose(): void
+}
+class MainMenuScreen {
+  + show(): void
+  + hide(): void
+  + dispose(): void
+  - displayBackgroundImage(): void
+  + pause(): void
+  + render(float): void
+  - drawPlayButton(): void
+  + resize(int, int): void
+  + resume(): void
+}
+class Map {
+  + nextLocation(): void
+   id: String
+   trailPosition: int
+   trail: Trail
+}
+class Resource {
+  + generateFoodItem(Game): Item
+  + generateDrinkItem(Game): Item
+  + generateMedicalItem(Game): Item
+}
+class ResourceAssigner {
+  + draw(): void
+  + isClicked(Input): void
+   posX: float
+   lock: boolean
+   buttonMinusBox: Rectangle
+   value: int
+   posY: float
+   game: Game
+   buttonPlusBox: Rectangle
+   resourceTexture: Texture
+}
+class ScreenConfiguration {
+   y: int
+   yDown: Boolean
+   x: int
+}
+class Setup {
+   assets: HashMap<String, String>
+   travelers: int
+   inventoryData: HashMap<String, Integer>
+   eventCap: int
+}
+class ShopScreen
+class StatusBar {
+  + deltaUpdate(float): void
+  + draw(Game, Color, float, float, float, float): void
+   name: String
+   maxValue: int
+   idCounter: int
+   value: int
+}
+class Trail {
+  + toString(): String
+   id: String
+   locations: ArrayList<Location>
+}
+class Trait {
+  + updateDuration(float): void
+   name: String
+   description: String
+   effectCommand: String
+   id: String
+   duration: float
+}
+class TransitionScreen {
+  + resume(): void
+  - applyTraitEffects(): void
+  - updateVitals(Character, int): void
+  + show(): void
+  - drawTransitionBar(float, float): void
+  + render(float): void
+  + hide(): void
+  + pause(): void
+  + resize(int, int): void
+  + dispose(): void
+}
+interface UpdateStatusBarInterface << interface >>
+interface WriteSaveInterface << interface >>
+
+AssignmentScreen         "1" *-[#595959,plain]-> "openInventory\n1" Button                   
+AssignmentScreen          -[#595959,dashed]->  Button                   : "«create»"
+AssignmentScreen          -[#595959,dashed]->  ClientException          : "«create»"
+AssignmentScreen         "1" *-[#595959,plain]-> "game\n1" Game                     
+AssignmentScreen          -[#595959,dashed]->  InventoryScreen          : "«create»"
+AssignmentScreen         "1" *-[#595959,plain]-> "assignButtons\n*" ResourceAssigner         
+AssignmentScreen          -[#595959,dashed]->  ResourceAssigner         : "«create»"
+AssignmentScreen          -[#595959,dashed]->  TransitionScreen         : "«create»"
+Character                 -[#595959,dashed]->  ClientException          : "«create»"
+Character                "1" *-[#595959,plain]-> "foodBar\n1" StatusBar                
+Character                 -[#595959,dashed]->  StatusBar                : "«create»"
+Character                "1" *-[#595959,plain]-> "traits\n*" Trait                    
+ClientException           -[#595959,dashed]->  ClientExceptionScreen    : "«create»"
+ClientException          "1" *-[#595959,plain]-> "game\n1" Game                     
+ClientException           -[#008200,dashed]-^  GameExceptionInterface   
+ClientExceptionScreen     -[#000082,plain]-^  ErrorScreen              
+Convoy                   "1" *-[#595959,plain]-> "characters\n*" Character                
+Convoy                   "1" *-[#595959,plain]-> "inventory\n1" Inventory                
+Convoy                    -[#595959,dashed]->  Inventory                : "«create»"
+Effect                    -[#595959,dashed]->  ClientException          : "«create»"
+EndScreen                "1" *-[#595959,plain]-> "game\n1" Game                     
+ErrorScreen              "1" *-[#595959,plain]-> "game\n1" Game                     
+Event                    "1" *-[#595959,plain]-> "options\n*" EventOption              
+EventOption              "1" *-[#595959,plain]-> "button\n1" Button                   
+EventOption               -[#595959,dashed]->  Button                   : "«create»"
+EventScreen               -[#595959,dashed]->  Button                   : "«create»"
+EventScreen              "1" *-[#595959,plain]-> "openInventory\n1" Button                   
+EventScreen              "1" *-[#595959,plain]-> "event\n1" Event                    
+EventScreen              "1" *-[#595959,plain]-> "game\n1" Game                     
+EventScreen               -[#595959,dashed]->  InventoryScreen          : "«create»"
+EventScreen              "1" *-[#595959,plain]-> "currentTransition\n1" TransitionScreen         
+Game                      -[#595959,dashed]->  Convoy                   : "«create»"
+Game                     "1" *-[#595959,plain]-> "convoy\n1" Convoy                   
+Game                      -[#595959,dashed]->  GraphQLException         : "«create»"
+Game                      -[#008200,dashed]-^  GraphQlClientInterface   
+Game                     "1" *-[#595959,plain]-> "gameItems\n*" Item                     
+Game                      -[#595959,dashed]->  MainMenuScreen           : "«create»"
+Game                      -[#595959,dashed]->  Map                      : "«create»"
+Game                     "1" *-[#595959,plain]-> "map\n1" Map                      
+Game                      -[#595959,dashed]->  ScreenConfiguration      : "«create»"
+Game                     "1" *-[#595959,plain]-> "screenConfiguration\n1" ScreenConfiguration      
+Game                     "1" *-[#595959,plain]-> "setup\n1" Setup                    
+Game                      -[#595959,dashed]->  Trail                    : "«create»"
+Game                     "1" *-[#595959,plain]-> "gameTraits\n*" Trait                    
+GraphQLErrorScreen        -[#000082,plain]-^  ErrorScreen              
+GraphQLException         "1" *-[#595959,plain]-> "game\n1" Game                     
+GraphQLException          -[#008200,dashed]-^  GameExceptionInterface   
+GraphQLException          -[#595959,dashed]->  GraphQLErrorScreen       : "«create»"
+GraphQlClientInterface    -[#595959,dashed]->  Character                : "«create»"
+GraphQlClientInterface    -[#595959,dashed]->  Event                    : "«create»"
+GraphQlClientInterface    -[#595959,dashed]->  EventOption              : "«create»"
+GraphQlClientInterface    -[#595959,dashed]->  Item                     : "«create»"
+GraphQlClientInterface    -[#595959,dashed]->  Location                 : "«create»"
+GraphQlClientInterface    -[#595959,dashed]->  Setup                    : "«create»"
+GraphQlClientInterface    -[#595959,dashed]->  Trait                    : "«create»"
+IntroductionScreen       "1" *-[#595959,plain]-> "nextButton\n1" Button                   
+IntroductionScreen        -[#595959,dashed]->  Button                   : "«create»"
+IntroductionScreen       "1" *-[#595959,plain]-> "game\n1" Game                     
+IntroductionScreen        -[#595959,dashed]->  LocationScreen           : "«create»"
+Inventory                 -[#008200,dashed]-^  InventoryInterface       
+InventoryScreen          "1" *-[#595959,plain]-> "game\n1" Game                     
+InventoryScreen          "1" *-[#595959,plain]-> "textures\n*" Item                     
+InventoryScreen          "1" *-[#595959,plain]-> "displays\n*" ItemDisplay              
+InventoryScreen           -[#595959,dashed]->  ItemDisplay              : "«create»"
+ItemDisplay              "1" *-[#595959,plain]-> "item\n1" Item                     
+LocationScreen            -[#595959,dashed]->  AssignmentScreen         : "«create»"
+LocationScreen            -[#595959,dashed]->  EndScreen                : "«create»"
+LocationScreen           "1" *-[#595959,plain]-> "game\n1" Game                     
+LocationScreen           "1" *-[#595959,plain]-> "location\n1" Location                 
+MainMenuScreen           "1" *-[#595959,plain]-> "game\n1" Game                     
+MainMenuScreen            -[#595959,dashed]->  IntroductionScreen       : "«create»"
+Map                      "1" *-[#595959,plain]-> "trail\n1" Trail                    
+Resource                  -[#595959,dashed]->  ClientException          : "«create»"
+ResourceAssigner         "1" *-[#595959,plain]-> "game\n1" Game                     
+Trail                    "1" *-[#595959,plain]-> "locations\n*" Location                 
+TransitionScreen          -[#595959,dashed]->  EventScreen              : "«create»"
+TransitionScreen         "1" *-[#595959,plain]-> "game\n1" Game                     
+TransitionScreen          -[#595959,dashed]->  LocationScreen           : "«create»"
+@enduml

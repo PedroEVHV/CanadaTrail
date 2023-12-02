@@ -5,21 +5,25 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.ScreenUtils;
 import ct.game.Game;
 import ct.game.screens.ScreenConfiguration;
 
 import ct.game.screens.location.LocationScreen;
+import ct.game.utils.ui.Button;
 
 public class IntroductionScreen implements Screen {
     private final Game game;
     private OrthographicCamera camera;
+    private Button nextButton;
 
     public IntroductionScreen(final Game game, ScreenConfiguration config) {
         this.game = game;
 
         camera = new OrthographicCamera();
         camera.setToOrtho(config.getyDown(), config.getX(), config.getY());
+        nextButton = new Button("On to the game !", new Rectangle(config.getX()*0.6f, config.getY()*0.8f, 340f, 30f));
     }
     @Override
     public void show() {
@@ -39,11 +43,18 @@ public class IntroductionScreen implements Screen {
         this.drawContext(configX, configY);
         drawGameRules(configX, configY);
         drawMap(configX, configY);
+        this.game.getFont().getData().setScale(2.5f, 2.5f);
+        nextButton.draw(this.game);
+        this.game.getFont().getData().setScale(1f, 1f);
         game.getSpriteBatch().end();
 
-        if (Gdx.input.isTouched() && Gdx.input.getY() < this.game.getScreenConfiguration().getY()/3) {
-            game.setScreen(new LocationScreen(game, game.getScreenConfiguration(), 0));
-            dispose();
+
+        if (Gdx.input.isTouched()) {
+            if(nextButton.isClicked(Gdx.input)) {
+                game.setScreen(new LocationScreen(game, game.getScreenConfiguration(), 0));
+                dispose();
+            }
+
         }
     }
 

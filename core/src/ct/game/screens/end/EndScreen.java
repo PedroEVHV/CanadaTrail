@@ -32,6 +32,7 @@ public class EndScreen implements Screen {
         game.getSpriteBatch().setProjectionMatrix(camera.combined);
 
         game.getSpriteBatch().begin();
+        game.getFont().getData().setScale(4f,4f);
         if(this.success) {
             drawSuccess(configX, configY);
         } else {
@@ -66,10 +67,10 @@ public class EndScreen implements Screen {
     }
 
     private void drawFailure(float configX, float configY) {
-        this.game.getFont().draw(this.game.getSpriteBatch(), "GAME OVER",configX*0.5f, configY*0.5f);
+        this.game.getFont().draw(this.game.getSpriteBatch(), "GAME OVER",configX*0.35f, configY*0.5f);
     }
 
     private void drawSuccess(float configX, float configY) {
-        this.game.getFont().draw(this.game.getSpriteBatch(), "WELL DONE !", configX*0.5f, configY*0.5f);
+        this.game.getFont().draw(this.game.getSpriteBatch(), "WELL DONE !", configX*0.35f, configY*0.5f);
     }
 }

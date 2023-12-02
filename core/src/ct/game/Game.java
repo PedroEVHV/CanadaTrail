@@ -79,6 +79,7 @@ public class Game extends com.badlogic.gdx.Game implements GraphQlClientInterfac
 			"    water\n" +
 			"    name\n" +
 			"    assets\n" +
+			"    items\n" +
 			"  }\n" +
 			"}";
 

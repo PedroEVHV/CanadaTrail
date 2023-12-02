@@ -22,28 +22,28 @@ export function eventsInit() {
         }, 
         {
             "id" : "EVENTID_event:1",
-            "name" : "Lucky findings on the road !",
+            "title" : "Lucky findings on the road !",
             "description" : "You find some abandoned supplies alongside the road.",
             "eventCode" : "1",
             "options" : [
                 {
                     "number" : "1",
                     "text" : "It's free real estate...",
-                    "effect" : "i#ITEMID_item:1!1",
+                    "effectCode" : "i#ITEMID_item:1!1",
                     "description" : "food +1"
                 }
             ]
         },
         {
             "id" : "EVENTID_event:2",
-            "name" : "target:0 cut himself/herself with a knife.",
+            "title" : "target:0 cut himself/herself with a knife.",
             "description" : "While playing with a knife target:0 got hit with consequences.",
-            "eventCode" : "1",
+            "eventCode" : "2",
             "options" : [
                 {
                     "number" : "1",
                     "text" : "Skill issue...",
-                    "effect" : "c#0!stat!health!-15",
+                    "effectCode" : "c#0!stat!health!-15",
                     "description" : "target:0 loses 15 health"
                 }
             ]

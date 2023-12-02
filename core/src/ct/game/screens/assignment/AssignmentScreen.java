@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.ScreenUtils;
 import ct.game.Game;
 import ct.game.characters.Character;
+import ct.game.exceptions.ClientException;
 import ct.game.inventories.Item;
 import ct.game.screens.ScreenConfiguration;
 import ct.game.screens.inventory.InventoryScreen;
@@ -49,34 +50,41 @@ public class AssignmentScreen implements Screen {
         this.game = game;
         this.camera = new OrthographicCamera();
         this.camera.setToOrtho(config.getyDown(), config.getX(), config.getY());
-
-
-
-        //Load textures
-        this.foodTexture = new Texture(Gdx.files.internal("item_sprites/" + Objects.requireNonNull(Resource.generateFoodItem(this.game)).getSpriteCode() + ".png"));
-        this.waterTexture = new Texture(Gdx.files.internal("item_sprites/" + Objects.requireNonNull(Resource.generateDrinkItem(this.game)).getSpriteCode() + ".png"));
-        this.healthTexture = new Texture(Gdx.files.internal("item_sprites/" + Objects.requireNonNull(Resource.generateMedicalItem(this.game)).getSpriteCode() + ".png"));
-        this.inventoryTexture = new Texture(Gdx.files.internal("util_sprites/wagon-image.png"));
-
-
-        this.assignButtons = new HashMap<>();
-        this.assignmentValidity = true;
         float configX = this.game.getScreenConfiguration().getX();
         float configY = this.game.getScreenConfiguration().getY();
+        this.assignButtons = new HashMap<>();
 
-        for(int i = 0; i < this.game.getConvoy().getCharacters().size(); i++) {
-            ResourceAssigner foodAssigner = new ResourceAssigner(this.game, foodTexture, configX*0.65f, configY*0.8f - i*125f);
+        //Load textures
+        try {
+            System.out.println("g");
+            this.foodTexture = new Texture(Gdx.files.internal("item_sprites/" + Resource.generateFoodItem(this.game).getSpriteCode() + ".png"));
+            this.waterTexture = new Texture(Gdx.files.internal("item_sprites/" + Resource.generateDrinkItem(this.game).getSpriteCode() + ".png"));
+            this.healthTexture = new Texture(Gdx.files.internal("item_sprites/" + Resource.generateMedicalItem(this.game).getSpriteCode() + ".png"));
+            this.inventoryTexture = new Texture(Gdx.files.internal("util_sprites/wagon-image.png"));
 
-            this.assignButtons.put( i * 10 + 0, foodAssigner);
+            this.assignmentValidity = true;
 
-            ResourceAssigner waterAssigner = new ResourceAssigner(this.game, waterTexture, configX*0.75f, configY*0.8f - i*125f);
 
-            this.assignButtons.put(i * 10 + 1, waterAssigner);
+            for(int i = 0; i < this.game.getConvoy().getCharacters().size(); i++) {
+                ResourceAssigner foodAssigner = new ResourceAssigner(this.game, foodTexture, configX*0.65f, configY*0.8f - i*125f);
 
-            ResourceAssigner healthAssigner = new ResourceAssigner(this.game, healthTexture, configX*0.85f, configY*0.8f - i*125f);
+                this.assignButtons.put( i * 10 + 0, foodAssigner);
 
-            this.assignButtons.put( i * 10 + 2,healthAssigner);
+                ResourceAssigner waterAssigner = new ResourceAssigner(this.game, waterTexture, configX*0.75f, configY*0.8f - i*125f);
+
+                this.assignButtons.put(i * 10 + 1, waterAssigner);
+
+                ResourceAssigner healthAssigner = new ResourceAssigner(this.game, healthTexture, configX*0.85f, configY*0.8f - i*125f);
+
+                this.assignButtons.put( i * 10 + 2,healthAssigner);
+            }
+        } catch (ClientException e) {
+            e.setErrorScreen();
         }
+
+
+
+
         this.openInventory = new Button(new Texture(Gdx.files.internal("util_sprites/wagon-image.png")), new Rectangle(configX*0.01f, configY - configY*0.1f, 50f, 50f));
         this.nextButton = new Button(this.confirmButtonText, new Rectangle(configX*0.75f, configY*0.9f, configX*0.2f, 50f));
     }
@@ -108,9 +116,14 @@ public class AssignmentScreen implements Screen {
         for(Character c : this.game.getConvoy().getCharacters()) {
             this.game.getFont().draw(this.game.getSpriteBatch(), c.getName1() + " " + c.getName2(), configX*0.01f, configY*0.8f - count*125f);
 
-            this.assignButtons.get(count * 10 + 0).draw();
-            this.assignButtons.get(count * 10 + 1).draw();
-            this.assignButtons.get(count * 10 + 2).draw();
+            try {
+                this.assignButtons.get(count * 10 + 0).draw();
+                this.assignButtons.get(count * 10 + 1).draw();
+                this.assignButtons.get(count * 10 + 2).draw();
+            } catch(Exception e) {
+                new ClientException("Unable to draw resource assigners", this.game).setErrorScreen();
+            }
+
 
             count++;
         }
@@ -141,9 +154,14 @@ public class AssignmentScreen implements Screen {
                 dispose();
 
             } else {
-                checkCorrectAssignment(Resource.generateFoodItem(this.game), 0);
-                checkCorrectAssignment(Resource.generateDrinkItem(this.game), 1);
-                checkCorrectAssignment(Resource.generateMedicalItem(this.game), 2);
+                try {
+                    checkCorrectAssignment(Resource.generateFoodItem(this.game), 0);
+                    checkCorrectAssignment(Resource.generateDrinkItem(this.game), 1);
+                    checkCorrectAssignment(Resource.generateMedicalItem(this.game), 2);
+                } catch(ClientException e) {
+                    e.setErrorScreen();
+                }
+
 
             }
         }
@@ -190,9 +208,14 @@ public class AssignmentScreen implements Screen {
     }
 
     private void updateInventory(int deltaF, int deltaW, int deltaH) {
-        this.game.getConvoy().getInventory().update(Resource.generateFoodItem(this.game), - deltaF);
-        this.game.getConvoy().getInventory().update(Resource.generateDrinkItem(this.game), - deltaW);
-        this.game.getConvoy().getInventory().update(Resource.generateMedicalItem(this.game), - deltaH);
+        try{
+            this.game.getConvoy().getInventory().update(Resource.generateFoodItem(this.game), - deltaF);
+            this.game.getConvoy().getInventory().update(Resource.generateDrinkItem(this.game), - deltaW);
+            this.game.getConvoy().getInventory().update(Resource.generateMedicalItem(this.game), - deltaH);
+        } catch(ClientException e) {
+            e.setErrorScreen();
+        }
+
 
     }
 

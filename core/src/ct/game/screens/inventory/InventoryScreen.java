@@ -31,7 +31,7 @@ public class InventoryScreen implements Screen {
 
     private int index;
     private int maxIndex;
-    private static int gridSizeX = 6;
+    private static int gridSizeX = 4;
     private static int gridSizeY = 4;
     //Displayed grid : 6 * 4
 
@@ -52,12 +52,13 @@ public class InventoryScreen implements Screen {
         for(Item item : this.game.getGameItems()) {
             if(this.game.getConvoy().getInventory().get(item) != null) {
                 this.displays.add(new ItemDisplay(item, this.game.getConvoy().getInventory().get(item), x, y, page));
-                if(x >= gridSizeX) {
+                if(x > gridSizeX - 1) {
                     x = 0;
                     y++;
                 }
-                if(y >= gridSizeY) {
+                else if(y > gridSizeY - 1) {
                     y = 0;
+                    x = 0;
                     page++;
                 } else {
                     x++;

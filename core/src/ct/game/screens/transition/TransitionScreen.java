@@ -85,8 +85,9 @@ public class TransitionScreen implements Screen {
                 Random random = new Random();
                 float randomFloat = random.nextFloat();
 
-                if(randomFloat < 0.8) {
+                if(randomFloat < 0.2) {
                     int eventNumber = random.nextInt(0, this.game.getSetup().getEventCap());
+                    System.out.println("event code : " + eventNumber);
                     Event e = GraphQlClientInterface.getEvent(eventQuery, Game.getUrl(), String.valueOf(eventNumber));
                     this.game.setScreen(new EventScreen(this.game, this.game.getScreenConfiguration(), e, this));
                     //event
@@ -118,16 +119,16 @@ public class TransitionScreen implements Screen {
 
 
         //Draw
-        drawTransitionBar(configX * 0.1f, configY *0.5f);
+        drawTransitionBar(configX * 0.1f, configY *0.5f - 30f);
 
 
 
         int count = 0;
         for(Character c : this.game.getConvoy().getCharacters()) {
             if(c.isAlive()) {
-                c.getHealthBar().draw(this.game, Game.healthColor, configX * 0.2f, configY - count * 30f - 25f, 1f, 15f);
-                c.getFoodBar().draw(this.game, Game.foodColor, configX * 0.3f, configY - count * 30f - 25f, 1f, 15f);
-                c.getWaterBar().draw(this.game, Game.waterColor, configX * 0.4f, configY - count * 30f - 25f, 1f, 15f);
+                c.getHealthBar().draw(this.game, Game.healthColor, configX * 0.2f, configY - count * 30f - 55f, 1f, 15f);
+                c.getFoodBar().draw(this.game, Game.foodColor, configX * 0.3f, configY - count * 30f - 55f, 1f, 15f);
+                c.getWaterBar().draw(this.game, Game.waterColor, configX * 0.4f, configY - count * 30f - 55f, 1f, 15f);
                 count++;
             }
         }
@@ -136,7 +137,7 @@ public class TransitionScreen implements Screen {
         for(Character c : this.game.getConvoy().getCharacters()) {
             if(c.isAlive()) {
                 this.game.getFont().getData().setScale(1f, 1f);
-                this.game.getFont().draw(this.game.getSpriteBatch(), c.getName1() + " " + c.getName2(), configX * 0.05f, configY - count * 30f - 10f);
+                this.game.getFont().draw(this.game.getSpriteBatch(), c.getName1() + " " + c.getName2(), configX * 0.05f, configY - count * 30f - 40f);
                 count++;
             }
 
@@ -185,11 +186,11 @@ public class TransitionScreen implements Screen {
     private void drawTransitionBar(float x, float y) {
         ShapeRenderer renderer = new ShapeRenderer();
         renderer.begin(ShapeRenderer.ShapeType.Filled);
-        renderer.setColor(Color.ROYAL);
+        renderer.setColor(Color.GRAY);
 
         int blocs = (int) (transitionProgress/0.1f);
         for(int i = 0; i < blocs; i++) {
-            renderer.rect(x + i * 70f, y, 60f, 20f);
+            renderer.rect(x + i * 70f, y, 60f, 12f);
         }
         renderer.end();
         renderer.dispose();

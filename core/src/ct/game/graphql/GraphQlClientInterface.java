@@ -25,6 +25,7 @@ import java.util.HashMap;
 public interface GraphQlClientInterface {
     static HttpResponse request(String query, String url, HashMap<String, String> arguments) throws RuntimeException, IOException, URISyntaxException {
         //source : https://techndeck.com/post-request-with-json-body-using-apache-httpclient/
+        // function mainly based-off source, we removed elements that were irrelevant to the project
 
         CloseableHttpClient client = HttpClientBuilder.create().build();
         HttpPost request = new HttpPost(url);

@@ -15,6 +15,7 @@ import ct.game.events.Event;
 import ct.game.exceptions.ClientException;
 import ct.game.graphql.GraphQlClientInterface;
 import ct.game.screens.ScreenConfiguration;
+import ct.game.screens.end.EndScreen;
 import ct.game.screens.event.EventScreen;
 import ct.game.screens.location.LocationScreen;
 import ct.game.utils.Effect;
@@ -81,6 +82,9 @@ public class TransitionScreen implements Screen {
                 this.game.setScreen(new LocationScreen(game, this.game.getScreenConfiguration(), this.game.getMap().getTrailPosition()));
                 this.dispose();
             } else  {
+                if(this.game.checkForFailure()) {
+                    this.game.setScreen(new EndScreen(this.game, this.game.getScreenConfiguration(), false));
+                }
                 //randomize event
                 Random random = new Random();
                 float randomFloat = random.nextFloat();

@@ -114,18 +114,21 @@ public class AssignmentScreen implements Screen {
         //Draw character info
         int count = 0;
         for(Character c : this.game.getConvoy().getCharacters()) {
-            this.game.getFont().draw(this.game.getSpriteBatch(), c.getName1() + " " + c.getName2(), configX*0.01f, configY*0.8f - count*125f);
+            if(c.isAlive()) {
+                this.game.getFont().draw(this.game.getSpriteBatch(), c.getName1() + " " + c.getName2(), configX*0.01f, configY*0.8f - count*125f);
 
-            try {
-                this.assignButtons.get(count * 10 + 0).draw();
-                this.assignButtons.get(count * 10 + 1).draw();
-                this.assignButtons.get(count * 10 + 2).draw();
-            } catch(Exception e) {
-                new ClientException("Unable to draw resource assigners", this.game).setErrorScreen();
+                try {
+                    this.assignButtons.get(count * 10 + 0).draw();
+                    this.assignButtons.get(count * 10 + 1).draw();
+                    this.assignButtons.get(count * 10 + 2).draw();
+                } catch(Exception e) {
+                    new ClientException("Unable to draw resource assigners", this.game).setErrorScreen();
+                }
+
+
+                count++;
             }
 
-
-            count++;
         }
 
         //game.getFont().draw(game.getSpriteBatch(),confirmButtonText, configX*0.76f, 40.f);
@@ -134,10 +137,13 @@ public class AssignmentScreen implements Screen {
         this.game.getSpriteBatch().end();
         count = 0;
         for(Character c : this.game.getConvoy().getCharacters()) {
-            c.getHealthBar().draw(this.game, Game.healthColor, configX * 0.3f, configY * 0.8f - count * 125f - 25f, 1f, 20f);
-            c.getFoodBar().draw(this.game, Game.foodColor, configX * 0.4f, configY * 0.8f - count * 125f - 25f, 1f, 20f);
-            c.getWaterBar().draw(this.game, Game.waterColor, configX * 0.5f, configY * 0.8f - count * 125f - 25f, 1f, 20f);
-            count++;
+            if(c.isAlive()) {
+                c.getHealthBar().draw(this.game, Game.healthColor, configX * 0.3f, configY * 0.8f - count * 125f - 25f, 1f, 20f);
+                c.getFoodBar().draw(this.game, Game.foodColor, configX * 0.4f, configY * 0.8f - count * 125f - 25f, 1f, 20f);
+                c.getWaterBar().draw(this.game, Game.waterColor, configX * 0.5f, configY * 0.8f - count * 125f - 25f, 1f, 20f);
+                count++;
+            }
+
         }
 
 

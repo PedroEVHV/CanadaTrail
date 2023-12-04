@@ -233,6 +233,15 @@ public class Game extends com.badlogic.gdx.Game implements GraphQlClientInterfac
 		}
 	}
 
+	public boolean checkForFailure() {
+		for(Character c : this.convoy.getCharacters()) {
+			if(c.isAlive()) {
+				return false;
+			}
+		}
+		return true;
+	}
+
 	public void applyTraitEffects() {
 		for(int i = 0; i < this.convoy.getCharacters().size(); i++) {
 			for(Trait t : this.convoy.getCharacters().get(i).getTraits()) {

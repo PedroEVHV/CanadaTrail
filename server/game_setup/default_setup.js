@@ -3,19 +3,19 @@ export function gameSetup() {
         "id" : "SETUP0",
         "name" : "Default start",
         "travelers" : 4,
-        "eventCap" : 3,
+        "eventCap" : 5,
         "food" : {
-            "amount" : 10,
+            "amount" : 30,
             "item" : "ITEMID_item:1",
             "mult" : 10
         },
         "water" : {
-            "amount" : 10,
+            "amount" : 30,
             "item" : "ITEMID_item:0",
             "mult" : 10
         },
         "medical" : {
-            "amount" : 10,
+            "amount" : 30,
             "item" : "ITEMID_item:10",
             "mult" : 10
         },

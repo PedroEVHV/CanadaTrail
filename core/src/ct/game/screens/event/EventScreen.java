@@ -16,6 +16,8 @@ import ct.game.screens.transition.TransitionScreen;
 import ct.game.utils.Effect;
 import ct.game.utils.ui.Button;
 
+import java.util.concurrent.ThreadLocalRandom;
+
 public class EventScreen implements Screen {
 
     private Game game;
@@ -24,18 +26,31 @@ public class EventScreen implements Screen {
     private TransitionScreen currentTransition;
     private Button openInventory;
     private String errorText;
+    private int targetId;
 
     public EventScreen(Game game, ScreenConfiguration config, Event event, TransitionScreen screen) {
         this.game = game;
         this.event = event;
-        for(EventOption option : this.event.getOptions()) {
-            option.updateDescriptionForCharacterEvent(this.game);
-        }
+
         this.currentTransition = screen;
         this.camera = new OrthographicCamera();
         this.camera.setToOrtho(config.getyDown(), config.getX(), config.getY());
         this.openInventory = new Button(new Texture(Gdx.files.internal("util_sprites/wagon-image.png")), new Rectangle(config.getX()*0.01f, config.getY()*0.90f, 50f, 50f));
         this.errorText = "";
+        int i = ThreadLocalRandom.current().nextInt(0, game.getSetup().getTravelers());
+        while(!game.getConvoy().getCharacters().get(i).isAlive()) {
+            i = ThreadLocalRandom.current().nextInt(0, game.getSetup().getTravelers());
+
+        }
+        this.targetId = i;
+        System.out.println("target :" + targetId);
+        for(EventOption option : this.event.getOptions()) {
+            option.updateDescriptionForCharacterEvent(this.game, this.targetId);
+        }
+    }
+
+    public int getTargetId() {
+        return targetId;
     }
 
     public void setErrorText(String errorText) {

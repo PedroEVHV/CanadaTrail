@@ -5,7 +5,7 @@ export function traitsInit() {
             "name" : "Light sickness",
             "description" : "Nothing to worry about, just don't let him work too much.",
             "duration" : 1,
-            "effectCommand" : "c#x!stat!water!-5@x!stat!food!-5"
+            "effectCommand" : "c#x!stat!water!-1@x!stat!food!-1"
         },
         {
             "id" : "TRAITID_trait:1",
@@ -26,14 +26,14 @@ export function traitsInit() {
             "name" : "Tuberculosis",
             "description" : "Deadly lung disease. This character might die soon.",
             "duration" : -1,
-            "effectCommand" : "c#x!stat!health!-20@x!stat!health!-30"
+            "effectCommand" : "c#x!stat!water!-1@x!stat!health!-2"
         },
         {
             "id" : "TRAITID_trait:4",
             "name" : "Broken leg",
             "description" : "Good luck running with that...",
             "duration" : 3,
-            "effectCommand" : "c#x!stat!health!-5@x!stat!water!-5@"
+            "effectCommand" : "c#x!stat!health!-1@x!stat!water!-1@"
         }
     ]
 }

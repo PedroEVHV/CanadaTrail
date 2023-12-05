@@ -9,8 +9,15 @@ import java.util.Objects;
 
 public abstract class Effect {
     public static boolean applyEffect(Game game, String command, EventScreen screen) throws ClientException {
+
         if(command == "" || command == null) {
             return true;
+        }
+        char c = command.charAt(0);
+        if(c == 'c' && (command.contains("#x!") || command.contains("@x!"))) {
+            System.out.println("replaced");
+            System.out.println(screen.getTargetId());
+            command = command.replace("#x!", "#" + screen.getTargetId() + "!").replace("@x!", "@" + screen.getTargetId() + "!");
         }
         //Code parsing
         String[] commands = command.split("=");
@@ -57,9 +64,19 @@ public abstract class Effect {
                     } catch(ClientException e) {
                         e.setErrorScreen();
                     }
+
+                    if(!game.getConvoy().getCharacters().get(id).isAlive()) {
+                        int index = 0;
+                        while(!game.getConvoy().getCharacters().get(index).isAlive() && index < game.getConvoy().getCharacters().size()){
+                            index++;
+                        }
+                        id = index;
+                    }
+
                     String affectType = var[1];
 
                     if(Objects.equals(affectType, "stat")) {
+                        //System.out.println("stat");
                         String statType = var[2];
                         float amount = Float.parseFloat(var[3]);
 
@@ -74,8 +91,10 @@ public abstract class Effect {
 
                     } else if(Objects.equals(affectType, "trait")) {
                         try{
+                            System.out.println("trait");
                             String action = var[2];
                             if(Objects.equals(action, "add")) {
+                                System.out.println(var[3]);
                                 game.getConvoy().getCharacters().get(id).addTrait(game, var[3]);
                             } else if(Objects.equals(action, "remove")) {
                                 game.getConvoy().getCharacters().get(id).removeTrait(game, var[3]);
@@ -83,7 +102,6 @@ public abstract class Effect {
                         } catch(ClientException e) {
                             e.setErrorScreen();
                         }
-
                     }
                 }
             }

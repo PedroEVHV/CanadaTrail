@@ -99,15 +99,18 @@ public class TransitionScreen implements Screen {
                 this.transitionProgress += 0.1f;
 
                 //Update vitals
-                for(Character c : this.game.getConvoy().getCharacters()) {
+                for(int i = 0; i < this.game.getConvoy().getCharacters().size(); i++) {
+                    Character c = this.game.getConvoy().getCharacters().get(i);
                     if(c.isAlive()) {
-                        for(Trait t : c.getTraits()) {
-                            try {
-                                Effect.applyEffect(game, t.getEffectCommand(), null);
-                            } catch (ClientException e) {
-                                e.setErrorScreen();
-                            }
-                        }
+//                        for(Trait t : c.getTraits()) {
+//                            try {
+//                                String correctCommand = t.getEffectCommand().replace("#x!", "#" + i + "!").replace("@x!", "#" + i + "!");
+//                                System.out.println(correctCommand);
+//                                Effect.applyEffect(game, correctCommand, null);
+//                            } catch (ClientException e) {
+//                                e.setErrorScreen();
+//                            }
+//                        }
                         this.updateVitals(c, Game.baseMultiplier );
                         this.game.applyTraitEffects();
                     }

@@ -2,6 +2,7 @@ package ct.game.events;
 
 import com.badlogic.gdx.math.Rectangle;
 import ct.game.Game;
+import ct.game.characters.Trait;
 import ct.game.utils.ui.Button;
 
 public class EventOption {
@@ -41,14 +42,17 @@ public class EventOption {
         return description;
     }
 
-    public void updateDescriptionForCharacterEvent(Game game) {
+    public void updateDescriptionForCharacterEvent(Game game, int targetId) {
         System.out.println(this.description);
-        for(int i = 0; i < game.getConvoy().getCharacters().size(); i++) {
+        if(this.description.contains("target:x")) {
 
-            if(this.description.contains("target:" + i)) {
-                System.out.println("found !");
-                this.description = this.description.replace("target:" + i, game.getConvoy().getCharacters().get(i).getName1() + game.getConvoy().getCharacters().get(i).getName2());
+            this.description = this.description.replace("target:x", game.getConvoy().getCharacters().get(targetId).getName1() + " " + game.getConvoy().getCharacters().get(targetId).getName2());
+            String[] s = this.description.split(" ");
+            Trait t = game.getTrait(s[s.length - 1]);
+            if(t != null) {
+                this.description = this.description.replace(t.getId(), t.getName() + ".");
             }
+
         }
     }
 

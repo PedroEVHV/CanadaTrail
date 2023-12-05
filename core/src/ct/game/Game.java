@@ -21,6 +21,7 @@ import ct.game.utils.Effect;
 import ct.game.utils.Setup;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Game extends com.badlogic.gdx.Game implements GraphQlClientInterface {
 
@@ -218,6 +219,15 @@ public class Game extends com.badlogic.gdx.Game implements GraphQlClientInterfac
 		return url;
 	}
 
+	public Trait getTrait(String id) {
+		for(Trait t : gameTraits) {
+			if(Objects.equals(t.getId(), id)) {
+				return t;
+			}
+		}
+		return null;
+	}
+
 
 	// Methods
 
@@ -244,16 +254,21 @@ public class Game extends com.badlogic.gdx.Game implements GraphQlClientInterfac
 
 	public void applyTraitEffects() {
 		for(int i = 0; i < this.convoy.getCharacters().size(); i++) {
-			for(Trait t : this.convoy.getCharacters().get(i).getTraits()) {
-				String newCommand = t.getEffectCommand().replace("#x!", "#" + i + "!").replace("@x!", "@" + i + "!");
-				try {
-					Effect.applyEffect(this, newCommand, null);
-					t.updateDuration(-1);
-				} catch(ClientException e) {
-					e.setErrorScreen();
-				}
+			if(this.convoy.getCharacters().get(i).isAlive()) {
+				System.out.println("char alive");
+				for(Trait t : this.convoy.getCharacters().get(i).getTraits()) {
+					System.out.println("trait");
+					String newCommand = t.getEffectCommand().replace("#x!", "#" + i + "!").replace("@x!", "@" + i + "!");
+					try {
+						Effect.applyEffect(this, newCommand, null);
+						t.updateDuration(-1);
+					} catch(ClientException e) {
+						e.setErrorScreen();
+					}
 
+				}
 			}
+
 		}
 	}
 }
